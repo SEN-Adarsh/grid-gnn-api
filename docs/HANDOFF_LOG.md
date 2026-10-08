@@ -103,3 +103,35 @@
 - The pinned `Scorer` hard-codes `profile_source: synthetic_fallback` in API responses; the true provenance of the merged context is `synthetic_india_v2` (recorded in selected_model.json, audit log and docs). Left as-is to keep pinned files untouched.
 - Merged-dataset defects from the audit are NOT fixed (generator unavailable): inspection timing inconsistency (quarantined, not repaired), event-flag shortcut (excluded as predictor), hooking onset semantics unresolved (Tariff misuse/billing model undocumented). Consequences are visible in results: meter-level M0 cannot see direct hooking (as expected); DT-balance separation of hooking DTs is weak (AUC ~0.54) on this dataset.
 - WP-13 holdout/sanity work on synth_v2 packs is superseded by this integration; packs remain as scenario reference only.
+
+### Deployment (2026-10-08)
+
+- Backend LIVE on Render (Docker, free tier): https://grid-gnn-api.onrender.com
+  - /health verified: status ok, model M0, config_hash 6e60f7bd16aff2ef (merged demo context)
+  - /score verified live: 440 meters / 10 DTs, 2.16 s runtime, rank-1 p 0.999
+- Local verification before deploy: RAM 314 MB working set (fits 512 MB free tier);
+  score none/vacancy/upstream_hooking all pass on the exact container code path.
+- Frontend: grid-gnn-dashboard on Vercel (user-imported); UI overhaul from
+  collaborator pushed as f7a4ad6; app.js API_BASE default switched to the Render
+  URL (commit after f7a4ad6). ?api= override and localhost:8001 default retained.
+- Full guide: D:\rodic\DEPLOYMENT_GUIDE.md
+
+### 2026-10-08 (late) — friend's Rodic redesign UI merged; /health corrected
+- Friend's clone had diverged from 9d67d8b: 9 commits (routed multi-page UI, guided demo,
+  sample mode, M0/M1 copy, fast-fail). Merged into origin/main via merge commit 26ed50b
+  (no force push; both lineages preserved), then fix commit 7b3dcdd.
+- Bugs found in the zip and fixed: (1) API_BASE default was a placeholder
+  'https://USERNAME-grid-gnn-api.hf.space' -> set to https://grid-gnn-api.onrender.com;
+  (2) recommended-model priority preferred M1 -> flipped to M0 (matches selected_model.json
+  and every published eval number); (3) sample-mode model label M1 -> M0; assets cache-bust
+  v=9 -> v=10. UI consumes h.scoring_window and h.models from /health (both now served).
+- Backend 3f4c947: /health now reports profile_source from selected_model.json
+  (synthetic_india_v2; was hard-coded 'synthetic_fallback') and adds
+  scoring_window {min,max} computed from context cfg ((baseline_days+7)*96 .. total).
+  api.py pin updated to 7ceb0c8868bde954416c32c22b43a02bc586fdf642aa62116e64583f0c8e7058;
+  hf_space suite 22 passed.
+- Live verified: /health {synthetic_india_v2, 1344-1344, M0/M1}; guided-demo-shaped
+  POST /score (M0/theft/0.9/1344/tamper) -> 440 meters, 10 DTs, 1.88 s, config 6e60f7bd16aff2ef.
+  Note: /score response body still carries the pinned cosmetic profile_source label
+  (scoring.py is pinned); UI never displays it (provenance line omits it).
+- Frontend still awaits the user's Vercel import; repo main = 7b3dcdd.
