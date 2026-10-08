@@ -47,9 +47,14 @@ def scorer():return Scorer()
 @app.get('/health')
 def health():
     service=scorer()
-    return {'status':'ok','profile_source':'synthetic_fallback','model':service.selection['model'],
+    obs=service.context
+    total=int(obs.kwh.shape[1])
+    minimum=int((obs.cfg['baseline_days']+7)*96)
+    return {'status':'ok','profile_source':service.selection.get('profile_source','synthetic_fallback'),
+            'model':service.selection['model'],
             'models':sorted(service.models),
             'models_note':service.selection.get('training_data',''),
+            'scoring_window':{'min':minimum,'max':total},
             'config_hash':service.selection['config_hash'],'automated_enforcement':False}
 
 @app.post('/score')

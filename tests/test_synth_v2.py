@@ -145,7 +145,7 @@ def test_backward_compat():
         'src/common.py': 'e04f188853ebf4521ce8db76ce46b025bdf54464263c783c396dd7095c04f470',
         # Deploy-layout api.py: inherited file + CORS middleware + /health
         # models list (both deltas documented in docs/HANDOFF_LOG.md).
-        'app/api.py': 'f99f22598b4b92af4cfbea3627a131b91eb9c6bf2363e97423a1a1d674613181',
+        'app/api.py': '7ceb0c8868bde954416c32c22b43a02bc586fdf642aa62116e64583f0c8e7058',
         'app/scoring.py': 'bf4a5f86f9d30c1da3e1f622f24025e120d34bf485cee81df8e8e76036ef3d42',
     }
     for rel, want in pinned.items():
