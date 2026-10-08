@@ -1,0 +1,69 @@
+extends: final.yaml
+name: synth_v2
+pack: ''
+# WP-13 synth_v2 master config. Every value below is an ASSUMPTION
+# (docs/ASSUMPTIONS.md), not an Indian measurement. Inherited keys
+# (prevalence, dropout, mapping_error, ...) come from final.yaml and are
+# overridden here only where v2 semantics replace them.
+
+# --- Section 2: entities ---
+class_mix: [0.80, 0.15, 0.05]          # domestic / small commercial / agricultural+other
+three_phase_prob_by_class: {domestic: 0.03, small_commercial: 0.35, agricultural: 0.60}
+long_radial_dt_fraction: 0.0           # share of DTs on the long radial feeder variant
+area_mix: [0.4, 0.35, 0.25]            # urban / semi-urban / rural (DT level)
+
+# --- Section 3: load model / seasonal envelope ---
+temp_mean_c: 31.0
+temp_seasonal_amplitude_c: 6.0
+temp_seasonal_phase_days: 20
+temp_daily_amplitude_c: 3.0
+cooling_threshold_c: 29.0
+
+# --- Section 4: honest confounders (fractions of all meters) ---
+confounder_fractions:
+  vacancy: 0.06
+  seasonal_occupancy: 0.04
+  meter_fault: 0.04
+  behaviour_up: 0.03
+  behaviour_down: 0.03
+  solar: 0.06
+  disconnect_reconnect: 0.03
+meter_fault_split: [0.30, 0.25, 0.25, 0.20]   # stuck / intermittent / drift / spike
+meter_fault_drift_rate_range: [0.05, 0.30]    # reading drift per 30 days
+meter_fault_spike_rate: 0.004                 # spike probability per interval
+
+# --- Section 5: theft families (weights in FAMILIES order t1..t8) ---
+family_weights: [0.22, 0.18, 0.15, 0.12, 0.08, 0.10, 0.10, 0.05]
+per_dt_prevalence_range: [0.02, 0.15]
+zero_theft_dt_fraction: 0.40
+cluster_min_customers: 3
+cluster_max_customers: 8
+t1_alpha_range: [0.2, 0.8]
+t2_alpha_range: [0.2, 0.8]
+t2_daytime_variant: false
+t4_scale_range: [0.3, 0.7]
+t5_phase_scale_range: [0.2, 0.5]       # reported scale on the tampered phase
+t6_alpha_end_range: [0.3, 0.7]
+t6_ramp_days_range: [14, 35]
+hook_power_kw_range: [0.3, 2.0]
+
+# --- Section 6: typed event log (names unconfirmed vs Indian standard) ---
+event_link_probability: 0.5
+cover_open_link_probability: 0.4
+magnetic_events_per_day: 1.5
+neutral_events_per_day: 1.2
+cover_open_events_per_day: 0.8
+reverse_current_link_probability: 0.5
+reverse_current_events_per_day: 0.5
+honest_event_meter_fraction: 0.30
+honest_cover_open_per_day: 0.05
+honest_magnetic_per_day: 0.02
+comm_failure_per_day: 0.10
+comm_failure_on_dropout_probability: 0.6
+voltage_event_threshold: 0.10
+event_sensitivity_per_day: 0.08
+event_false_positive_per_day: 0.015
+
+# --- Section 7: data problems (beyond inherited keys) ---
+glitch_rate: 0.0005                    # negative / spike glitches per interval
+per_meter_clock_drift_minutes: 4.0

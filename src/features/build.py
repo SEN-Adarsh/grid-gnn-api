@@ -10,12 +10,14 @@ OWN_NAMES = ['log_baseline_kwh_day', 'recent_baseline_ratio', 'week_baseline_rat
              'event_rate_day', 'poweroff_fraction', 'negative_fraction',
              'recent_slope', 'temperature_adjusted_ratio', 'category_commercial',
              'category_agricultural', 'log_sanctioned_load']
+# WP-13: synth_v2 ground-truth column names extend the forbidden set.
+FORBIDDEN = ('labels', 'archetype', 'is_theft', 'physical_dt', 'true_', 'theft_params', 'tech_loss_kwh',
+             'family', 'honest_archetype', 'meter_level_positive')
 GRAPH_NAMES = ['peer_ratio_mean', 'peer_ratio_std', 'peer_ratio_q25', 'peer_ratio_q75',
                'ratio_relative_to_peers', 'dt_residual_fraction', 'dt_week_residual_fraction',
                'dt_residual_persistence', 'dt_missing_fraction',
                'voltage_gap_change_v', 'voltage_gap_snr', 'voltage_gap_std_v']
 VOLTAGE_NAMES = GRAPH_NAMES[-3:]
-FORBIDDEN = ('labels', 'archetype', 'is_theft', 'physical_dt', 'true_', 'theft_params', 'tech_loss_kwh')
 
 
 @dataclass

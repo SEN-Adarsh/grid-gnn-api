@@ -1,0 +1,12 @@
+{
+  "model": "M0",
+  "config_hash": "6e60f7bd16aff2ef",
+  "profile_source": "synthetic_india_v2",
+  "dataset": "merged demo cohort: 500 meters, 10 DTs, 14 days (demo_only_14d partition of the audit pack)",
+  "training_data": "unsupervised residual/isolation features; Platt calibration on quarantined-clean inspection labels (2 theft_found, 31 no_theft)",
+  "models_available": [
+    "M0",
+    "M1"
+  ],
+  "gnn_global_permutation_importance": []
+}

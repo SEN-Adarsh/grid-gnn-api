@@ -1,0 +1,12 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P2_night_theft_cluster
+seed_eval: 410021
+# Story: several neighbours on one DT bypass supply in the evening. Shows
+# meter ranking within a flagged DT.
+n_dts: 6
+meters_per_dt: 30
+days: 60
+family_weights: [0.0, 0.4, 0.0, 0.0, 0.0, 0.0, 0.0, 0.6]
+per_dt_prevalence_range: [0.10, 0.12]
+zero_theft_dt_fraction: 0.20

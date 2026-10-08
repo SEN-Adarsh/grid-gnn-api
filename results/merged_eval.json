@@ -1,0 +1,137 @@
+{
+  "profile_source": "SYNTHETIC (synthetic_india_v2)",
+  "cohort": "eval",
+  "n_meters_scored": 1800,
+  "n_dts": 40,
+  "days": 60,
+  "track_a_inspection_supervised": {
+    "n_theft_found": 3,
+    "n_no_theft": 131,
+    "n_not_accessible_excluded_from_negatives": 12,
+    "quarantined_rows_removed_by_adapter": 8,
+    "ranks_of_theft_found": {
+      "M000790": 127,
+      "M001576": 505,
+      "M001951": 185
+    },
+    "enrichment_top25": 0,
+    "enrichment_top50": 0,
+    "expected_by_chance_top50": 0.08,
+    "mannwhitney_p_greater": 0.011773477177486948,
+    "caveat": "Dataset-wide only 6 theft_found inspections exist after quarantine (3 of them in this cohort); they are sparse, selected and biased. Enrichment is indicative only."
+  },
+  "track_b_oracle_declared": {
+    "note": "Hidden truth used for evaluation only, as permitted by the dataset README and the audit protocol. NOT field performance.",
+    "prevalence": 0.09444444444444444,
+    "m0_residual_roc_auc": 0.9080295922049801,
+    "m0_residual_pr_auc": 0.6742514557709254,
+    "per_family_top50": {
+      "collusion": {
+        "positives": 24,
+        "in_top50": 0,
+        "median_rank": 98.5
+      },
+      "direct_hooking": {
+        "positives": 18,
+        "in_top50": 1,
+        "median_rank": 880.0
+      },
+      "fractional_underrecord": {
+        "positives": 18,
+        "in_top50": 2,
+        "median_rank": 92.0
+      },
+      "frozen_meter": {
+        "positives": 18,
+        "in_top50": 17,
+        "median_rank": 19.5
+      },
+      "partial_bypass": {
+        "positives": 23,
+        "in_top50": 5,
+        "median_rank": 70.0
+      },
+      "tamper_assisted": {
+        "positives": 21,
+        "in_top50": 3,
+        "median_rank": 83.0
+      },
+      "tariff_misuse": {
+        "positives": 17,
+        "in_top50": 1,
+        "median_rank": 141.0
+      },
+      "time_suppression": {
+        "positives": 31,
+        "in_top50": 3,
+        "median_rank": 136.0
+      }
+    },
+    "dt_balance_direct_hooking_auc": 0.5416666666666666,
+    "direct_hooking_dts": [
+      2,
+      4,
+      5,
+      13,
+      14,
+      15,
+      16,
+      21,
+      22,
+      26,
+      29,
+      30,
+      31,
+      37,
+      38,
+      39
+    ],
+    "dt_balance_fractions": [
+      0.1539868712425232,
+      0.14590425789356232,
+      0.19156426191329956,
+      0.11001560091972351,
+      0.16544321179389954,
+      0.1432124674320221,
+      0.18177351355552673,
+      0.2028626650571823,
+      0.1892530471086502,
+      0.1760680228471756,
+      0.12571458518505096,
+      0.23108145594596863,
+      0.16893768310546875,
+      0.22255587577819824,
+      0.12925201654434204,
+      0.16094549000263214,
+      0.19360004365444183,
+      0.16876141726970673,
+      0.12964046001434326,
+      0.21833840012550354,
+      0.1398857831954956,
+      0.1431642472743988,
+      0.23801647126674652,
+      0.186009019613266,
+      0.19184944033622742,
+      0.24485628306865692,
+      0.16048476099967957,
+      0.251829594373703,
+      0.11672689765691757,
+      0.27713510394096375,
+      0.14969441294670105,
+      0.1899956464767456,
+      0.22946782410144806,
+      0.1021486222743988,
+      0.1845337301492691,
+      0.21298012137413025,
+      0.04969343915581703,
+      0.275776743888855,
+      0.13076898455619812,
+      0.1628570407629013
+    ]
+  },
+  "protocol": {
+    "event_flags_excluded": true,
+    "truth_never_a_predictor": true,
+    "feeder_pole_never_a_predictor": true
+  }
+}

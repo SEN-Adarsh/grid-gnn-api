@@ -1,0 +1,13 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P7_unseen_family
+seed_eval: 410007
+# Story: models trained without t5/t6/t7 face them here (the hold-out
+# evaluation restricts training families; this pack supplies the data).
+n_dts: 12
+meters_per_dt: 30
+days: 60
+family_weights: [0.0, 0.0, 0.0, 0.0, 0.34, 0.33, 0.33, 0.0]
+per_dt_prevalence_range: [0.08, 0.12]
+zero_theft_dt_fraction: 0.30
+three_phase_prob_by_class: {domestic: 0.15, small_commercial: 0.50, agricultural: 0.80}

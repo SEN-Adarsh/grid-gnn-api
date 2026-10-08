@@ -1,0 +1,9 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P6_mixed_realistic
+seed_eval: 410006
+# Story: all families and confounders at default prevalence. The headline
+# demo run.
+n_dts: 40
+meters_per_dt: 50
+days: 60

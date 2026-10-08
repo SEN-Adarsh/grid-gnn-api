@@ -1,0 +1,18 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P4_solar_behaviour_confounder
+seed_eval: 410004
+# Story: daytime import drops for honest reasons. A known limitation, shown
+# openly.
+n_dts: 6
+meters_per_dt: 30
+days: 60
+zero_theft_dt_fraction: 1.0
+confounder_fractions:
+  vacancy: 0.03
+  seasonal_occupancy: 0.02
+  meter_fault: 0.02
+  behaviour_up: 0.08
+  behaviour_down: 0.08
+  solar: 0.15
+  disconnect_reconnect: 0.02

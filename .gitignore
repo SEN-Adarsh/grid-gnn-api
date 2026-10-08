@@ -5,3 +5,6 @@ uvicorn_err.log
 results/audit_log.jsonl
 .pytest_cache/
 .env
+data/
+.venv/
+*.log

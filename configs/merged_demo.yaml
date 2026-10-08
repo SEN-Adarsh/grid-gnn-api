@@ -1,0 +1,11 @@
+extends: final.yaml
+# Replay context for the merged `synthetic_india_v2` demo cohort:
+# the original 500-meter / 14-day cohort (10 DTs, uniform 44 meters/DT).
+# Demo-only per the audit pack; the 60-day evaluation cohort is separate.
+profile_source: synthetic_india_v2
+n_dts: 10
+meters_per_dt: 44
+days: 14
+baseline_days: 7
+artifacts_dir: artifacts_merged_demo
+output_dir: results/merged_demo

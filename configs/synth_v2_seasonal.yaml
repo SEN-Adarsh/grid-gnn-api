@@ -1,0 +1,9 @@
+extends: synth_v2.yaml
+name: synth_v2_seasonal
+pack: seasonal_365
+seed_eval: 410100
+# 365-day pack for the temporal/seasonal hold-out study (WP-13 Section 8.4).
+# Smaller network to keep the 6x longer horizon affordable.
+n_dts: 8
+meters_per_dt: 25
+days: 365

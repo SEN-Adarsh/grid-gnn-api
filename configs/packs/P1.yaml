@@ -1,0 +1,12 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P1_hooking_dt
+seed_eval: 410001
+# Story: one DT carries hidden hooking; every meter looks normal. Shows what
+# DT-level energy balance finds that meter-level models cannot.
+n_dts: 6
+meters_per_dt: 30
+days: 60
+family_weights: [0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+per_dt_prevalence_range: [0.15, 0.15]
+zero_theft_dt_fraction: 0.67

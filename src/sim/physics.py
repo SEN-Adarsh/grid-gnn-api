@@ -31,7 +31,36 @@ def cigre_template():
     return pn.create_cigre_network_lv()
 
 
+def _long_radial_topology(n_meters, rng):
+    """Assumption-driven long radial LT feeder: one trunk of many poles with
+    long spans, meters clustered toward the far end, higher technical loss.
+    Reflects the general structure of low-tension feeders, not a measured
+    Indian feeder. No pandapower reference exists for this variant."""
+    n_poles = int(rng.integers(24, 34))
+    parents, r, x, lengths = [-1], [0.], [0.], [0.]
+    for i in range(1, n_poles + 1):
+        parents.append(i - 1)
+        span = rng.uniform(0.025, 0.045)  # km, trunk span (assumption)
+        r.append(rng.uniform(0.45, 0.90) * span)   # Ω/km LV conductor (assumption)
+        x.append(rng.uniform(0.07, 0.11) * span)
+        lengths.append(span * 1000)
+    meter_nodes = np.arange(n_poles + 1, n_poles + 1 + n_meters)
+    drop_r, drop_x = 1.83, 0.083  # Ω/km, NAYY 4x50 SE service drop
+    for _ in range(n_meters):
+        # Bias service connections toward the far half of the trunk.
+        pole = int(rng.integers(max(1, n_poles // 2), n_poles + 1))
+        parents.append(pole)
+        l = rng.uniform(0.008, 0.030)
+        r.append(drop_r * l)
+        x.append(drop_x * l)
+        lengths.append(l * 1000)
+    return Topology(np.array(parents), np.array(r), np.array(x),
+                    np.array(lengths), n_poles, meter_nodes, 'long_radial')
+
+
 def make_topology(n_meters, rng, source='cigre_residential'):
+    if source == 'long_radial':
+        return _long_radial_topology(n_meters, rng)
     net = cigre_template()
     root = 24 if source == 'cigre_commercial' else 2
     links = {}

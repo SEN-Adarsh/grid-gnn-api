@@ -1,0 +1,16 @@
+extends: ../synth_v2.yaml
+name: synth_v2
+pack: P5_comms_outage_storm
+seed_eval: 410005
+# Story: heavy missing data and a feeder outage. Shows robustness and the
+# limits of imputation.
+n_dts: 6
+meters_per_dt: 30
+days: 60
+zero_theft_dt_fraction: 1.0
+dropout: 0.25
+burst_dropout_fraction: 0.50
+planned_outage_days: 6
+unplanned_outage_probability_per_day: 0.30
+comm_failure_per_day: 0.40
+comm_failure_on_dropout_probability: 0.9
