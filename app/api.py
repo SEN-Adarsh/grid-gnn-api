@@ -48,6 +48,8 @@ def scorer():return Scorer()
 def health():
     service=scorer()
     return {'status':'ok','profile_source':'synthetic_fallback','model':service.selection['model'],
+            'models':sorted(service.models),
+            'models_note':service.selection.get('training_data',''),
             'config_hash':service.selection['config_hash'],'automated_enforcement':False}
 
 @app.post('/score')

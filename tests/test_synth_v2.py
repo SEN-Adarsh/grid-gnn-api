@@ -143,8 +143,9 @@ def test_backward_compat():
     pinned = {
         'src/sim/simulator.py': '51e81ab713712ce65738aeb41b901b0962b9dbf390a74ccda306d653b9f6b0ac',
         'src/common.py': 'e04f188853ebf4521ce8db76ce46b025bdf54464263c783c396dd7095c04f470',
-        # Deploy-layout api.py: inherited file + CORS middleware (the only delta).
-        'app/api.py': 'ea2542b3895ad2be9be5d5c0a73599e2f51fbd673b50cdced6e94972ab21ddb8',
+        # Deploy-layout api.py: inherited file + CORS middleware + /health
+        # models list (both deltas documented in docs/HANDOFF_LOG.md).
+        'app/api.py': 'f99f22598b4b92af4cfbea3627a131b91eb9c6bf2363e97423a1a1d674613181',
         'app/scoring.py': 'bf4a5f86f9d30c1da3e1f622f24025e120d34bf485cee81df8e8e76036ef3d42',
     }
     for rel, want in pinned.items():
