@@ -1,0 +1,101 @@
+meter_id,archetype,is_theft,theft_start,theft_params,physical_dt_id
+M00000,honest,False,-1,{},0
+M00969,honest,False,-1,{},19
+M00002,slowing,True,1390,"{""remaining_fraction"": 0.3159811201375794, ""parameter_set"": ""A""}",0
+M00003,honest,False,-1,{},0
+M00004,honest,False,-1,{},0
+M00005,honest,False,-1,{},0
+M00006,partial_bypass,True,1589,"{""remaining_fraction"": 0.46090885777897517, ""parameter_set"": ""A""}",0
+M00007,honest,False,-1,{},0
+M00008,honest,False,-1,{},0
+M00009,honest,False,-1,{},0
+M00010,honest,False,-1,{},0
+M00011,honest,False,-1,{},0
+M00012,intermittent,True,1485,"{""remaining_fraction"": 0.35076736790504337, ""parameter_set"": ""A""}",0
+M00013,honest,False,-1,{},0
+M00014,solar,False,2170,"{""solar_peak_kw"": 0.6655881496584972}",0
+M00015,honest,False,-1,{},0
+M00016,honest,False,-1,{},0
+M00017,honest,False,-1,{},0
+M00018,honest,False,-1,{},0
+M00019,honest,False,-1,{},0
+M00020,honest,False,-1,{},0
+M00021,honest,False,-1,{},0
+M00022,seasonal,False,1885,"{""remaining_fraction"": 0.23657265208246847}",0
+M00023,honest,False,-1,{},0
+M00024,honest,False,-1,{},0
+M00025,honest,False,-1,{},0
+M00026,solar,False,1847,"{""solar_peak_kw"": 1.3122313833143475}",0
+M00027,honest,False,-1,{},0
+M00028,honest,False,-1,{},0
+M00029,seasonal,False,1480,"{""remaining_fraction"": 0.34088706990573325}",0
+M00030,seasonal,False,1724,"{""remaining_fraction"": 0.3680815114472563}",0
+M00001,seasonal,False,2023,"{""remaining_fraction"": 0.236307820458715}",0
+M00032,honest,False,-1,{},0
+M00033,intermittent,True,2052,"{""remaining_fraction"": 0.27724519684654325, ""parameter_set"": ""A""}",0
+M00034,vacant,False,1386,"{""remaining_fraction"": 0.07284334517808107}",0
+M00035,slowing,True,2050,"{""remaining_fraction"": 0.2155044060892047, ""parameter_set"": ""A""}",0
+M00036,seasonal,False,1547,"{""remaining_fraction"": 0.13989415392071378}",0
+M00037,honest,False,-1,{},0
+M00038,honest,False,-1,{},0
+M00352,honest,False,-1,{},7
+M00040,honest,False,-1,{},0
+M00041,vacant,False,1426,"{""remaining_fraction"": 0.08841786462804027}",0
+M00042,honest,False,-1,{},0
+M00043,partial_bypass,True,2114,"{""remaining_fraction"": 0.10303351607077618, ""parameter_set"": ""A""}",0
+M00044,honest,False,-1,{},0
+M00045,honest,False,-1,{},0
+M00046,honest,False,-1,{},0
+M00047,solar,False,1959,"{""solar_peak_kw"": 0.6368334656488822}",0
+M00048,honest,False,-1,{},0
+M00049,honest_meter_fault,False,1839,"{""remaining_fraction"": 0.3451282940502395, ""parameter_set"": ""A""}",0
+M00150,honest,False,-1,{},3
+M00151,honest,False,-1,{},3
+M00152,honest,False,-1,{},3
+M00031,honest,False,-1,{},0
+M00154,honest,False,-1,{},3
+M00155,honest,False,-1,{},3
+M00156,honest,False,-1,{},3
+M00157,honest,False,-1,{},3
+M00158,honest,False,-1,{},3
+M00159,honest,False,-1,{},3
+M00160,honest,False,-1,{},3
+M00161,honest,False,-1,{},3
+M00162,honest,False,-1,{},3
+M00163,honest,False,-1,{},3
+M00164,honest,False,-1,{},3
+M00165,honest,False,-1,{},3
+M00166,honest,False,-1,{},3
+M00167,frozen,True,2099,"{""remaining_fraction"": 0.3331144156670427, ""parameter_set"": ""A""}",3
+M00168,intermittent,True,1453,"{""remaining_fraction"": 0.2567415785095163, ""parameter_set"": ""A""}",3
+M00169,intermittent,True,2001,"{""remaining_fraction"": 0.5276894216129383, ""parameter_set"": ""A""}",3
+M00170,honest,False,-1,{},3
+M00171,honest,False,-1,{},3
+M00172,honest,False,-1,{},3
+M00173,honest,False,-1,{},3
+M00174,honest,False,-1,{},3
+M00175,honest,False,-1,{},3
+M00176,honest,False,-1,{},3
+M00177,honest,False,-1,{},3
+M00178,honest,False,-1,{},3
+M00179,honest,False,-1,{},3
+M00180,solar,False,2111,"{""solar_peak_kw"": 0.5835999653073431}",3
+M00181,honest,False,-1,{},3
+M00182,honest,False,-1,{},3
+M00183,honest,False,-1,{},3
+M00184,ev_onset,False,1472,{},3
+M00185,solar,False,1904,"{""solar_peak_kw"": 1.649913554703339}",3
+M00186,honest,False,-1,{},3
+M00187,honest,False,-1,{},3
+M00188,honest,False,-1,{},3
+M00189,honest,False,-1,{},3
+M00190,seasonal,False,1348,"{""remaining_fraction"": 0.24342925645806818}",3
+M00191,honest,False,-1,{},3
+M00192,honest,False,-1,{},3
+M00193,honest,False,-1,{},3
+M00039,intermittent,True,1667,"{""remaining_fraction"": 0.41814581445232324, ""parameter_set"": ""A""}",0
+M00195,honest,False,-1,{},3
+M00196,honest,False,-1,{},3
+M00197,honest,False,-1,{},3
+M00198,honest,False,-1,{},3
+M00199,ev_onset,False,1589,{},3

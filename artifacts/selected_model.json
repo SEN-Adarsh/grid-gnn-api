@@ -1,0 +1,23 @@
+{
+  "model": "M4",
+  "config_hash": "61dcc432e86ee9be",
+  "model_sha256": "ca9a6ed71dffc4596d0674c24ea17f02b89678d91da0d28e66bdc6bc68dbd60a",
+  "gnn_global_permutation_importance": [
+    {
+      "group": "temporal_statistics",
+      "validation_pr_auc_decrease": 0.5064143672858872
+    },
+    {
+      "group": "peer_aggregates",
+      "validation_pr_auc_decrease": 0.07148373424558896
+    },
+    {
+      "group": "dt_residual",
+      "validation_pr_auc_decrease": 0.06082979545132905
+    },
+    {
+      "group": "voltage",
+      "validation_pr_auc_decrease": -0.01800574899365781
+    }
+  ]
+}
