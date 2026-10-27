@@ -15,6 +15,7 @@ residual ranking; evidence is the quarantined inspection log only.
 - no_theft controls: 131; not_accessible excluded from negatives: 12
 - Ranks of the 3 theft_found meters (of 1800): {'M000790': 127, 'M001576': 505, 'M001951': 185}
 - In top-50: 0 (chance expectation 0.08); top-25: 0
+- Inspection yield at budget: p@10=0.00, p@25=0.00, p@50=0.00, p@100=0.00, p@200=0.01 (3 usable positives — indicative only)
 - Mann-Whitney U (found > no_theft), p = 0.011773477177486948
 
 Dataset-wide only 6 theft_found inspections exist after quarantine (3 of them in this cohort); they are sparse, selected and biased. Enrichment is indicative only.
@@ -26,6 +27,7 @@ not inspection-supervised performance and not field performance.
 
 - Theft prevalence: 0.094
 - M0 residual ROC-AUC 0.908, PR-AUC 0.674
+- Inspection yield at budget (declared oracle): p@10=0.50 (5 hits, 5.3x lift), p@20=0.60 (12 hits, 6.4x lift), p@50=0.64 (32 hits, 6.8x lift), p@100=0.82 (82 hits, 8.7x lift)
 - DT-balance vs direct-hooking DTs: AUC 0.542 (hooking is unmetered upstream load; DT balance is the only honest signal)
 - Per-family presence in the top-50: {"collusion": {"positives": 24, "in_top50": 0, "median_rank": 98.5}, "direct_hooking": {"positives": 18, "in_top50": 1, "median_rank": 880.0}, "fractional_underrecord": {"positives": 18, "in_top50": 2, "median_rank": 92.0}, "frozen_meter": {"positives": 18, "in_top50": 17, "median_rank": 19.5}, "partial_bypass": {"positives": 23, "in_top50": 5, "median_rank": 70.0}, "tamper_assisted": {"positives": 21, "in_top50": 3, "median_rank": 83.0}, "tariff_misuse": {"positives": 17, "in_top50": 1, "median_rank": 141.0}, "time_suppression": {"positives": 31, "in_top50": 3, "median_rank": 136.0}}
 

@@ -10077,3 +10077,9 @@ merged_oracle_pr_auc,merged_oracle_pr_auc,0.674,,,results\merged_eval.json,MERGE
 merged_inspection_enrichment,merged_inspection_track_mwu_p_greater,0.0118,,,results\merged_eval.json,MERGED_SYNTHETIC
 merged_hooking_dt_balance_auc,merged_dt_balance_direct_hooking_auc,0.542,,,results\merged_eval.json,MERGED_SYNTHETIC
 merged_status,merged_status,SYNTHETIC third-party dataset (synthetic_india_v2); generator not supplied; no Indian field performance claimed;;;results\merged_eval.json,MERGED_SYNTHETIC
+track_b_precision_at_10,precision_at_10,0.50,,,results\merged_eval.json,
+track_b_precision_at_20,precision_at_20,0.60,,,results\merged_eval.json,
+track_b_precision_at_50,precision_at_50,0.64,,,results\merged_eval.json,
+track_a_precision_at_50,precision_at_50,0.00,,,results\merged_eval.json,
+honest_fault_fpr_recorded,honest_fault_pooled_fpr,47.3,,,../inherited/results/results.json,61dcc432e86ee9be
+honest_fault_fpr_reproduced,honest_fault_pooled_fpr,46.236,,,results\known_issues.md,61dcc432e86ee9be

@@ -58,6 +58,15 @@ def enrichment_at_k(scores: np.ndarray, found_rows: list[int], k: int) -> int:
     return sum(1 for r in found_rows if r in top)
 
 
+def precision_at_k(scores: np.ndarray, y: np.ndarray, k: int) -> dict:
+    """Inspection-budget yield: of the top-k ranked meters, how many are true."""
+    top = np.lexsort((np.arange(len(scores)), -scores))[:k]
+    hits = int(y[top].sum())
+    prev = max(float(y.mean()), 1e-9)
+    return {'k': k, 'hits': hits, 'precision': hits / k,
+            'lift_vs_prevalence': (hits / k) / prev}
+
+
 def run_evaluation(cohort: str = 'eval', seed: int = 0) -> dict:
     from src.data.merged_adapter import build_observations, merged_cfg
     from src.features.build import build_features, m0_scores
@@ -109,6 +118,11 @@ def run_evaluation(cohort: str = 'eval', seed: int = 0) -> dict:
                                  zip(found.meter_id, (ranks[int(r)] for r in found.row))},
         'enrichment_top25': enrichment_at_k(scores, found_rows, 25),
         'enrichment_top50': enrichment_at_k(scores, found_rows, 50),
+        'precision_at_k': [
+            {'k': k,
+             'hits': sum(1 for r in found_rows if ranks[r] <= k),
+             'precision': sum(1 for r in found_rows if ranks[r] <= k) / k}
+            for k in (10, 25, 50, 100, 200)],
         'expected_by_chance_top50': round(50 * len(found) / len(scores), 2),
         'mannwhitney_p_greater': float(p_mwu) if p_mwu is not None else None,
         'caveat': ('Dataset-wide only 6 theft_found inspections exist after '
@@ -129,6 +143,7 @@ def run_evaluation(cohort: str = 'eval', seed: int = 0) -> dict:
             'prevalence': prevalence,
             'm0_residual_roc_auc': oracle_auc,
             'm0_residual_pr_auc': oracle_pr,
+            'precision_at_k': [precision_at_k(scores, y, k) for k in (10, 20, 50, 100)],
             'per_family_top50': per_family,
             'dt_balance_direct_hooking_auc': hook_auc,
             'direct_hooking_dts': [int(g) for g in hook_dts],
@@ -161,6 +176,7 @@ residual ranking; evidence is the quarantined inspection log only.
 - no_theft controls: {a['n_no_theft']}; not_accessible excluded from negatives: {a['n_not_accessible_excluded_from_negatives']}
 - Ranks of the {a['n_theft_found']} theft_found meters (of {result['n_meters_scored']}): {a['ranks_of_theft_found']}
 - In top-50: {a['enrichment_top50']} (chance expectation {a['expected_by_chance_top50']}); top-25: {a['enrichment_top25']}
+- Inspection yield at budget: {', '.join(f"p@{p['k']}={p['precision']:.2f}" for p in a['precision_at_k'])} (3 usable positives — indicative only)
 - Mann-Whitney U (found > no_theft), p = {a['mannwhitney_p_greater']}
 
 {a['caveat']}
@@ -172,6 +188,7 @@ not inspection-supervised performance and not field performance.
 
 - Theft prevalence: {b['prevalence']:.3f}
 - M0 residual ROC-AUC {b['m0_residual_roc_auc']:.3f}, PR-AUC {b['m0_residual_pr_auc']:.3f}
+- Inspection yield at budget (declared oracle): {', '.join(f"p@{p['k']}={p['precision']:.2f} ({p['hits']} hits, {p['lift_vs_prevalence']:.1f}x lift)" for p in b['precision_at_k'])}
 - DT-balance vs direct-hooking DTs: AUC {b['dt_balance_direct_hooking_auc'] and f"{b['dt_balance_direct_hooking_auc']:.3f}"} (hooking is unmetered upstream load; DT balance is the only honest signal)
 - Per-family presence in the top-50: {json.dumps(b['per_family_top50'])}
 

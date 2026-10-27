@@ -16,6 +16,33 @@
     },
     "enrichment_top25": 0,
     "enrichment_top50": 0,
+    "precision_at_k": [
+      {
+        "k": 10,
+        "hits": 0,
+        "precision": 0.0
+      },
+      {
+        "k": 25,
+        "hits": 0,
+        "precision": 0.0
+      },
+      {
+        "k": 50,
+        "hits": 0,
+        "precision": 0.0
+      },
+      {
+        "k": 100,
+        "hits": 0,
+        "precision": 0.0
+      },
+      {
+        "k": 200,
+        "hits": 2,
+        "precision": 0.01
+      }
+    ],
     "expected_by_chance_top50": 0.08,
     "mannwhitney_p_greater": 0.011773477177486948,
     "caveat": "Dataset-wide only 6 theft_found inspections exist after quarantine (3 of them in this cohort); they are sparse, selected and biased. Enrichment is indicative only."
@@ -25,6 +52,32 @@
     "prevalence": 0.09444444444444444,
     "m0_residual_roc_auc": 0.9080295922049801,
     "m0_residual_pr_auc": 0.6742514557709254,
+    "precision_at_k": [
+      {
+        "k": 10,
+        "hits": 5,
+        "precision": 0.5,
+        "lift_vs_prevalence": 5.294117647058823
+      },
+      {
+        "k": 20,
+        "hits": 12,
+        "precision": 0.6,
+        "lift_vs_prevalence": 6.352941176470588
+      },
+      {
+        "k": 50,
+        "hits": 32,
+        "precision": 0.64,
+        "lift_vs_prevalence": 6.776470588235294
+      },
+      {
+        "k": 100,
+        "hits": 82,
+        "precision": 0.82,
+        "lift_vs_prevalence": 8.68235294117647
+      }
+    ],
     "per_family_top50": {
       "collusion": {
         "positives": 24,
