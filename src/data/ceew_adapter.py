@@ -24,6 +24,10 @@ WINDOWS_JSON = CEEW_BASE / 'windows.json'
 TZ = 'Asia/Kolkata'
 WINDOW_DAYS = 14
 WINDOW_STEPS = WINDOW_DAYS * 96
+# Assessment-only injection: build_features uses days 0-6 as the clean
+# own-history baseline and days 7-13 as the assessment window; injecting the
+# baseline too would self-cancel every ratio feature (both terms scaled).
+INJECT_START_DAY = 7
 
 DISTRICT_FILES = {
     'BR': ['SM Cleaned Data BR2019.csv',
@@ -302,8 +306,10 @@ def apply_theft(day: np.ndarray, theft_type: int, rng: np.random.Generator) -> n
 def inject_window(obs, types: dict, win: dict, win_index: int):
     """Return (copy of obs with reported kwh injected + optional DT-hook, manifest row).
 
-    Only complete days are injected. DT-hook (our extension beyond Zidi) adds
-    energy to dt_kwh only -- meter readings untouched.
+    Only complete days >= INJECT_START_DAY (assessment period) are injected;
+    baseline days stay clean so own-history features keep their reference.
+    DT-hook (our extension beyond Zidi) adds energy to dt_kwh only -- meter
+    readings untouched.
     """
     import copy as _copy
     rep = _copy.deepcopy(obs)
@@ -315,6 +321,7 @@ def inject_window(obs, types: dict, win: dict, win_index: int):
             continue
         kwh_row = rep.kwh[i]
         complete = np.isfinite(kwh_row).reshape(WINDOW_DAYS, 96).all(axis=1)
+        complete[:INJECT_START_DAY] = False
         n_days = 0
         rng = meter_rng(mid, salt=win_index + 100)
         for day in np.flatnonzero(complete):
@@ -327,7 +334,8 @@ def inject_window(obs, types: dict, win: dict, win_index: int):
             positives.append({'meter_id': mid, 'type': f'theft_{t}',
                               'injected_days': n_days, 'kwh_removed': round(removed, 3)})
             injected_days_total += n_days
-    # DT-hook extension: inflate dt input on a few DTs (never on meter rows)
+    # DT-hook extension: inflate dt input on assessment days of a few DTs
+    # (never on meter rows)
     hooks = []
     n_hook = min(2, max(0, d - 1))
     if n_hook:
@@ -335,15 +343,17 @@ def inject_window(obs, types: dict, win: dict, win_index: int):
         hooked = sorted(hrng.choice(d, size=n_hook, replace=False).tolist())
         for g in hooked:
             u_draws = hrng.uniform(*HOOK_U, size=WINDOW_DAYS)
-            for day in range(WINDOW_DAYS):
+            for day in range(INJECT_START_DAY, WINDOW_DAYS):
                 sl = slice(day * 96, (day + 1) * 96)
                 mean_load = float(np.mean(rep.dt_kwh[g, sl]))
                 if mean_load > 0:
                     rep.dt_kwh[g, sl] += u_draws[day] * mean_load
-            hooks.append({'dt_id': int(g), 'u_mean': round(float(u_draws.mean()), 4)})
+            hooks.append({'dt_id': int(g),
+                          'u_mean': round(float(u_draws[INJECT_START_DAY:].mean()), 4)})
     row = {'window_id': win['window_id'], 'district': win['district'],
            'positives': positives, 'hooks': hooks,
-           'injected_days_total': injected_days_total}
+           'injected_days_total': injected_days_total,
+           'inject_start_day': INJECT_START_DAY}
     return rep, row
 
 

@@ -110,7 +110,8 @@ def run() -> dict:
                 continue
             per_type[tname] = {'positives': int(mask.sum()),
                                'recall_at_top20pct': float((sc[mask] >= cut).mean()),
-                               'mean_score_percentile': float((sc[mask] > neg).mean())}
+                               'mean_score_percentile': float(
+                                   (sc[mask][:, None] > neg[None, :]).mean())}
         pooled[name] = {
             'n_meter_windows': int(len(y)),
             'prevalence': float(y.mean()),
@@ -145,21 +146,57 @@ def run() -> dict:
         'periodicity': periodicity,
         'protocol': {'dt_input_from_true_loads': True,
                      'theft_touches_reported_only': True,
+                     'injection_window': ('assessment days 7-13 only; baseline days 0-6 '
+                                          'stay clean so own-history features keep their '
+                                          'reference (full injection self-cancels every '
+                                          'ratio feature)'),
+                     'periodicity_lens': 'full staged history (Zheng setting)',
                      'frozen_served_models': sorted(models),
                      'features_unchanged': 'src/features/build.py (pinned)'},
     }
 
 
+def _summarize_pcc(bucket: dict) -> dict:
+    fc = np.array([x for x in bucket['clean'] if np.isfinite(x)])
+    fi = np.array([x for x in bucket['injected'] if np.isfinite(x)])
+    out = {'n_meters': len(bucket['clean']),
+           'mean_pcc_clean': float(np.mean(fc)) if len(fc) else None,
+           'mean_pcc_injected': float(np.mean(fi)) if len(fi) else None,
+           'share_pcc_gt_0.8_clean': float((fc > 0.8).mean()) if len(fc) else None,
+           'share_pcc_gt_0.8_injected': float((fi > 0.8).mean()) if len(fi) else None,
+           'per_type': {}}
+    for k, v in bucket['per_type'].items():
+        tc = np.array([x for x in v['clean'] if np.isfinite(x)])
+        ti = np.array([x for x in v['injected'] if np.isfinite(x)])
+        out['per_type'][k] = {'n': len(v['clean']),
+                              'mean_clean': float(np.mean(tc)) if len(tc) else None,
+                              'mean_injected': float(np.mean(ti)) if len(ti) else None}
+    return out
+
+
+def _wow_pairs(weeks: np.ndarray, valid: np.ndarray) -> float:
+    """Mean Pearson correlation of consecutive weeks (both must be valid)."""
+    with np.errstate(invalid='ignore'):
+        vals = [np.corrcoef(weeks[k], weeks[k + 1])[0, 1]
+                for k in range(len(weeks) - 1) if valid[k] and valid[k + 1]]
+    return float(np.nanmean(vals)) if vals else np.nan
+
+
 def periodicity_report(types: dict) -> dict:
-    """Paper-1 lens: week-over-week Pearson correlation of daily totals over the
-    full staged history, clean vs injected (theft applied per complete day at
-    slot level). Zheng et al. IEEE TII: normal > 0.8, thieves < 0.7."""
-    import pandas as pd
-    out = {'note': 'WoW-PCC of daily totals (Zheng et al. IEEE TII: '
-                   'normal > 0.8, thieves < 0.7)'}
+    """Zheng et al. IEEE TII lens over the FULL staged history (independent of
+    the assessment-window feature protocol): WoW-PCC of daily totals and of
+    slot-level weekly profiles, clean vs injected (theft applied per complete
+    day at slot level). Zheng quote: normal > 0.8, thieves < 0.7."""
+    out = {'note': ('WoW-PCC over full history, clean vs injected. Zheng et al. '
+                    'thresholds (normal > 0.8, thieves < 0.7) quoted for reference; '
+                    'transfer to this cohort is an empirical question (clean meters '
+                    'already sit far below 0.8). WoW-PCC is invariant to within-day '
+                    'reversal (T6) by construction: the same permutation applies to '
+                    'both correlated weeks.'),
+           'daily_total': {}, 'slot_weekly': {}}
     try:
-        stats = {'clean': [], 'injected': []}
-        per_type = {}
+        acc = {k: {'clean': [], 'injected': [], 'per_type': {}}
+               for k in ('daily_total', 'slot_weekly')}
         for district in ('BR', 'MH'):
             base = load_district(district)
             for mid, t in sorted(types.items()):
@@ -169,45 +206,47 @@ def periodicity_report(types: dict) -> dict:
                 if ser.empty:
                     continue
                 rng = meter_rng(mid, salt=999)
-                clean_d, inj_d = [], []
-                for _day, grp in ser.groupby(ser.ts.dt.date):
-                    vec = grp.kwh.to_numpy(np.float64)
-                    if t and len(vec) == 96:      # complete days only
-                        inj = apply_theft(vec, t, rng)
-                    else:
-                        inj = vec
-                    clean_d.append(vec.sum())
-                    inj_d.append(inj.sum())
-                n = (len(clean_d) // 7) * 7
-                if n < 14:
-                    continue
-                wc = np.asarray(clean_d[:n]).reshape(-1, 7)
-                wi = np.asarray(inj_d[:n]).reshape(-1, 7)
-                with np.errstate(invalid='ignore'):
-                    pcc_c = float(np.nanmean(
-                        [np.corrcoef(wc[k], wc[k + 1])[0, 1] for k in range(len(wc) - 1)]))
-                    pcc_i = float(np.nanmean(
-                        [np.corrcoef(wi[k], wi[k + 1])[0, 1] for k in range(len(wi) - 1)]))
-                stats['clean'].append(pcc_c)
-                stats['injected'].append(pcc_i)
-                if t:
-                    per_type.setdefault(f'theft_{t}', {'clean': [], 'injected': []})
-                    per_type[f'theft_{t}']['clean'].append(pcc_c)
-                    per_type[f'theft_{t}']['injected'].append(pcc_i)
-        finite_c = np.array([x for x in stats['clean'] if np.isfinite(x)])
-        finite_i = np.array([x for x in stats['injected'] if np.isfinite(x)])
-        out['n_meters'] = len(stats['clean'])
-        out['mean_pcc_clean'] = float(np.mean(finite_c)) if len(finite_c) else None
-        out['mean_pcc_injected'] = float(np.mean(finite_i)) if len(finite_i) else None
-        out['share_pcc_gt_0.8_clean'] = float((finite_c > 0.8).mean()) if len(finite_c) else None
-        out['share_pcc_gt_0.8_injected'] = float((finite_i > 0.8).mean()) if len(finite_i) else None
-        out['per_type'] = {}
-        for k, v in per_type.items():
-            fc = np.array([x for x in v['clean'] if np.isfinite(x)])
-            fi = np.array([x for x in v['injected'] if np.isfinite(x)])
-            out['per_type'][k] = {'n': len(v['clean']),
-                                  'mean_clean': float(np.mean(fc)) if len(fc) else None,
-                                  'mean_injected': float(np.mean(fi)) if len(fi) else None}
+                slots = ser.kwh.to_numpy(np.float64)
+                inj = slots.copy()
+                dates = ser.ts.dt.date.to_numpy()
+                bounds = np.flatnonzero(
+                    np.concatenate(([True], dates[1:] != dates[:-1], [True])))
+                groups = list(zip(bounds[:-1], bounds[1:]))
+                for a, b in groups:
+                    if t and (b - a) == 96:      # complete days only
+                        inj[a:b] = apply_theft(slots[a:b], t, rng)
+                # lens 1: daily totals
+                daily_c = np.array([slots[a:b].sum() for a, b in groups])
+                daily_i = np.array([inj[a:b].sum() for a, b in groups])
+                n7 = (len(daily_c) // 7) * 7
+                pcc_d = (float(np.nanmean([
+                    np.corrcoef(daily_c[:n7].reshape(-1, 7)[k],
+                                daily_c[:n7].reshape(-1, 7)[k + 1])[0, 1]
+                    for k in range(n7 // 7 - 1)])) if n7 >= 14 else np.nan)
+                pcc_di = (float(np.nanmean([
+                    np.corrcoef(daily_i[:n7].reshape(-1, 7)[k],
+                                daily_i[:n7].reshape(-1, 7)[k + 1])[0, 1]
+                    for k in range(n7 // 7 - 1)])) if n7 >= 14 else np.nan)
+                # lens 2: slot-level weekly profiles (672 slots/week)
+                n6 = (len(slots) // 672) * 672
+                pcc_s, pcc_si = np.nan, np.nan
+                if n6 >= 1344:
+                    wc = slots[:n6].reshape(-1, 672)
+                    wi = inj[:n6].reshape(-1, 672)
+                    ok = np.isfinite(wc).all(axis=1)
+                    pcc_s = _wow_pairs(wc, ok)
+                    pcc_si = _wow_pairs(wi, ok)
+                for key, pc, pi in (('daily_total', pcc_d, pcc_di),
+                                    ('slot_weekly', pcc_s, pcc_si)):
+                    acc[key]['clean'].append(pc)
+                    acc[key]['injected'].append(pi)
+                    if t:
+                        pt = acc[key]['per_type'].setdefault(
+                            f'theft_{t}', {'clean': [], 'injected': []})
+                        pt['clean'].append(pc)
+                        pt['injected'].append(pi)
+        out['daily_total'] = _summarize_pcc(acc['daily_total'])
+        out['slot_weekly'] = _summarize_pcc(acc['slot_weekly'])
     except Exception as exc:                    # never fail the report on the lens
         out['error'] = f'{type(exc).__name__}: {exc}'
     return out
@@ -224,6 +263,9 @@ def write_report(result: dict) -> None:
         + ' | '.join(f"{m['per_type'].get(t, {}).get('recall_at_top20pct', float('nan')):.2f}"
                      for t in [f'theft_{i}' for i in range(1, 7)]) + ' |'
         for name, m in p.items() if m['roc_auc'] is not None)
+    per = result['periodicity']
+    dt_lens = per.get('daily_total', {}) or {}
+    sw_lens = per.get('slot_weekly', {}) or {}
     md = f"""# Track C — real CEEW telemetry with injected theft labels
 
 **{result['honesty']}**
@@ -232,6 +274,7 @@ def write_report(result: dict) -> None:
 
 - Dataset: {result['dataset']['source']}; {result['dataset']['interval']}; districts {result['dataset']['districts']}
 - Injection: Zidi et al. (2023) six-type generator, prevalence {result['dataset']['prevalence']:.0%}, seed {result['dataset']['seed']}; DT-hook = our extension
+- Injection window: {result['protocol']['injection_window']}
 - Windows: {result['n_windows']} valid 14-day monthly windows (skipped: {len(result['skipped_windows'])})
 - Models: frozen served artifacts ({', '.join(result['protocol']['frozen_served_models'])}); features unchanged (pinned build.py)
 - Physics rule: dt input from TRUE loads + sweep loss; theft touches reported readings only
@@ -250,10 +293,12 @@ def write_report(result: dict) -> None:
 - Hooked DT ranked #1 by balance residual: {result['dt_hook']['hooked_rank1_rate']}
 - Mean balance AUC (hooked vs clean DTs): {result['dt_hook']['mean_balance_auc']}
 
-## Periodicity validation (Zheng et al. IEEE TII lens)
+## Periodicity validation (Zheng et al. IEEE TII lens, full history)
 
-- Meters: {result['periodicity'].get('n_meters')}; mean WoW-PCC clean {result['periodicity'].get('mean_pcc_clean')}, injected {result['periodicity'].get('mean_pcc_injected')}
-- Share with PCC > 0.8: clean {result['periodicity'].get('share_pcc_gt_0.8_clean')}, injected {result['periodicity'].get('share_pcc_gt_0.8_injected')}
+- Daily-total WoW-PCC: meters {dt_lens.get('n_meters')}; mean clean {dt_lens.get('mean_pcc_clean')} vs injected {dt_lens.get('mean_pcc_injected')}; share > 0.8 clean {dt_lens.get('share_pcc_gt_0.8_clean')} vs injected {dt_lens.get('share_pcc_gt_0.8_injected')}
+- Slot-weekly WoW-PCC: mean clean {sw_lens.get('mean_pcc_clean')} vs injected {sw_lens.get('mean_pcc_injected')}; share > 0.8 clean {sw_lens.get('share_pcc_gt_0.8_clean')} vs injected {sw_lens.get('share_pcc_gt_0.8_injected')}
+- Slot-weekly per-type (clean -> injected): {', '.join(f"{k} {(v.get('mean_clean') if v.get('mean_clean') is not None else float('nan')):.3f}->{(v.get('mean_injected') if v.get('mean_injected') is not None else float('nan')):.3f} (n={v.get('n')})" for k, v in sorted((sw_lens.get('per_type') or {}).items()))}
+- Note: {per.get('note')}
 
 ## Limitations
 

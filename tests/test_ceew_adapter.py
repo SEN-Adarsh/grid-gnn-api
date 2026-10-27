@@ -222,15 +222,18 @@ def test_inject_isolates_meters_and_dt(monkeypatch):
     rep, row = inject_window(obs, types, win, win_index=0)
     # untouched meters identical
     np.testing.assert_array_equal(rep.kwh[1], obs.kwh[1])
-    # thieves changed
-    assert not np.allclose(rep.kwh[0], obs.kwh[0], equal_nan=True)
-    # type-5 thief is flat on injected days (day 0)
-    flat = rep.kwh[5, :96]
+    # thieves changed in the assessment window only
+    assert not np.allclose(rep.kwh[0, 7 * 96:], obs.kwh[0, 7 * 96:], equal_nan=True)
+    # baseline days (0-6) stay clean for own-history features
+    np.testing.assert_array_equal(rep.kwh[0, :7 * 96], obs.kwh[0, :7 * 96])
+    # type-5 thief is flat on an injected assessment day (day 7)
+    flat = rep.kwh[5, 7 * 96:8 * 96]
     assert np.nanstd(flat) < 1e-6
     # manifest row shape
     row_keys = set(row)
     assert "positives" in row_keys and "hooks" in row_keys
     assert len(row["positives"]) == 2
+    assert all(p["injected_days"] <= 7 for p in row["positives"])
     # missing mask invariant
     assert (rep.missing == ~np.isfinite(rep.kwh)).all()
     # original obs not mutated (deepcopy)
