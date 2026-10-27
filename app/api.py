@@ -39,12 +39,26 @@ class ScoreRequest(StrictModel):
 
 IES_V0_4 = {
     'architecture': 'federated_stateless_interface',
+    'deployment_stage': 'Stage 1: Validation Reference Implementation (IES v0.4 Section 6.2 Accelerator, Section 7 Scaling Up, Pages 16-17)',
     'building_blocks_used': [
         'BB1_Identity (Meter & DT Unique Asset IDs)',
+        'BB2_Registries_Directories (DER Visibility, A1.2)',
         'BB3_Interaction_Protocols (Hash-bound /score Request-Ack)',
-        'BB4_Energy_Data_Exchange (15-min AMI & DT Telemetry Schema)',
-        'BB5_Energy_Credentials (Cryptographic Audit Log & Model SHA256)'],
+        'BB4_Energy_Data_Exchange_Public (Policy Pack: physics + precision thresholds, A1.6)',
+        'BB4_Energy_Data_Exchange_Permissioned (15-min AMI & DT Telemetry Schema)',
+        'BB5_Energy_Credentials (Cryptographic Audit Log & Model SHA256, A1.7)'],
     'data_residency': 'local_discom_retained_no_central_db',
+    'guiding_principles': {
+        'data_federation': 'Raw AMI/SCADA stays in host DISCOM MDMS/ADMS; stateless interface only (Page 10)',
+        'ai_readiness': 'Standardised 15-min interval arrays & verifiable audit receipts (Page 10)',
+        'dpdp_npsdp_compliance': 'Zero PII retention; purpose-bound NTL & loss attribution scoring (Pages 5, 20)',
+        'inclusivity': 'Zero-label cold-start default (M0/M1) for newly metered RDSS feeders (Page 10)',
+    },
+    'ies_scenarios_addressed': ['Scenario 2: Inconsistent asset/GIS identifiers across systems (Page 7)', 'Scenario 4: DISCOM trapped in integration loops (Pages 7-8)'],
+    'ies_risks_addressed': ['Risk 2: Uneven AMI deployment (Pages 20-21)', 'Risk 5: Quality at scale / GIS mapping inconsistency (Pages 20-21)'],
+    'ies_annexures': ['A1.2 DER Visibility Registry (Page 22)', 'A1.4 Consumer Energy Passport (Page 23)', 'A1.6 Policy Pack (Pages 23-24)', 'A1.7 DISCOM-Regulator Filing Object (Pages 13, 24)', 'A2.1 Supported Host Systems (Page 25)'],
+    'supported_host_systems': ['MDMS (AMI)', 'GIS', 'ADMS/SCADA', 'CIS/Billing', 'RDSS MIS Portal (Annexure A2.1, Page 25)'],
+    'openforge_api_setu': 'APIs published via API Setu; code hosted on OpenForge (Section 11, Page 20)',
 }
 
 app=FastAPI(title='Grid-GNN | Inspection Decision Support',version='0.1.0',
@@ -74,15 +88,25 @@ def ies_manifest():
     return {
         'standard': 'India Energy Stack (IES) v0.4',
         'alignment': IES_V0_4,
+        'building_blocks_matrix_6col': [
+            {'ies_column': 'WHO - Identity & Addressing', 'role': 'Core Dependency', 'mapping': 'meter_id and dt_id are federated asset & consumer identifiers (A1.4 Consumer Energy Passport, Page 23); prevents cross-system GIS-to-MDMS indexing mismatches (Scenario 2, Page 7)'},
+            {'ies_column': 'WHERE - Registries & Directories', 'role': 'Supporting Role', 'mapping': 'Discovers authorised DISCOM MDMS/GIS endpoints and DER Visibility Registries (A1.2, Page 22) so prosumer reverse flows (negative_fraction) are recognised, not misclassified'},
+            {'ies_column': 'HOW - Interaction Protocols', 'role': 'Core Dependency', 'mapping': 'Stateless POST /score and GET /health OpenAPI request/acknowledgement flow; ready for API Setu / OpenForge (Section 11, Page 20)'},
+            {'ies_column': 'WHAT (Public) - Public Energy Data Exchange', 'role': 'Supporting Role', 'mapping': 'Policy Pack (A1.6, Pages 23-24): AC power-flow conservation (<=1e-5 tolerance, pandapower agreement 6.74e-12 V) + 70%/50% precision thresholds with abstention; config_hash 6e60f7bd16aff2ef'},
+            {'ies_column': 'WHAT (Private) - Permissioned Energy Data Exchange', 'role': 'Core Dependency', 'mapping': 'Purpose-bound 15-min AMI interval arrays (readings[]) and DT telemetry (dt_readings[]) under Data Federation + NPSDP/DPDP Act 2023 (Pages 5, 10, 20); zero PII retained'},
+            {'ies_column': 'PROOF - Energy Credentials', 'role': 'Core Dependency', 'mapping': 'Tamper-evident audit_log.jsonl stamped with config_hash + model_sha256, exportable as IES A1.7 DISCOM-Regulator Filing Object (Pages 13, 24) for SERC loss-truing and Electricity Act s.126/s.135'},
+        ],
         'building_blocks': [
             {'id': 'BB1', 'name': 'Identity',
              'implementation': 'meter_id and dt_id in every request/response are federated asset & consumer identifiers for cross-referencing MDM, GIS and billing without a central database'},
+            {'id': 'BB2', 'name': 'Registries & Directories',
+             'implementation': 'DER Visibility Registry (A1.2, Page 22) for prosumer reverse-flow recognition; DISCOM MDMS/GIS endpoint discovery'},
             {'id': 'BB3', 'name': 'Interaction Protocols',
              'implementation': 'stateless POST /score request/acknowledgement flow; every response bound to config_hash and model_sha256'},
-            {'id': 'BB4', 'name': 'Energy Data Exchange',
-             'implementation': '15-minute interval AMI (readings[]) and DT telemetry (dt_readings[]) schema; raw consumer data stays inside the host utility'},
+            {'id': 'BB4', 'name': 'Energy Data Exchange (Public + Permissioned)',
+             'implementation': 'Public: Policy Pack (A1.6) physics + precision thresholds. Permissioned: 15-min interval AMI (readings[]) and DT telemetry (dt_readings[]) schema; raw consumer data stays inside the host utility'},
             {'id': 'BB5', 'name': 'Energy Credentials',
-             'implementation': 'append-only audit_log.jsonl entries carry model/config provenance for regulatory defence (Electricity Act s.126/s.135)'},
+             'implementation': 'append-only audit_log.jsonl entries carry model/config provenance for regulatory defence (Electricity Act s.126/s.135); exportable as A1.7 Filing Object'},
         ],
         'data_exchange_schema': {
             'request': {
@@ -92,6 +116,10 @@ def ies_manifest():
             'response': ['meters[] (rank, probability_simulated_theft, reason_codes, recommended_action, assigned_owner, target_sla, rdss_mis_code)',
                          'dts[] (4-way loss_attribution, work order)', 'config_hash', 'model_sha256'],
             'interval': '15 minutes (Asia/Kolkata)'},
+        'deployment_stage': 'Stage 1: Validation Reference Implementation (IES v0.4 Section 6.2, Section 7, Pages 16-17)',
+        'ies_scenarios_addressed': ['Scenario 2: Inconsistent asset/GIS identifiers (Page 7)', 'Scenario 4: DISCOM trapped in integration loops (Pages 7-8)'],
+        'ies_risks_addressed': ['Risk 2: Uneven AMI deployment (Pages 20-21)', 'Risk 5: Quality at scale / GIS mapping inconsistency (Pages 20-21)'],
+        'ies_annexures': ['A1.2 DER Visibility (Page 22)', 'A1.4 Consumer Energy Passport (Page 23)', 'A1.6 Policy Pack (Pages 23-24)', 'A1.7 DISCOM-Regulator Filing Object (Pages 13, 24)', 'A2.1 Supported Host Systems (Page 25)'],
         'central_database': False,
         'automated_enforcement': False,
     }

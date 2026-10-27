@@ -147,7 +147,7 @@ def test_backward_compat():
         # models list + ies_v0_4_alignment + GET /ies/manifest; scoring.py:
         # +4-way loss attribution + work-order fields + selection-driven
         # profile_source (all deltas documented in docs/HANDOFF_LOG.md).
-        'app/api.py': '5d6642294dbffda79788f24da6e5482a1c90b478b53c311ff4652be978c226ec',
+        'app/api.py': 'a450c77475ec4e9f46b0f6353c0533abcd3aaea9f2d868296be3d596c8fd24fa',
         'app/scoring.py': '106eab746dd75cd183d6a0ce5c827f20b6f2dd6cc34c9e437f329372342d9a3d',
     }
     for rel, want in pinned.items():
