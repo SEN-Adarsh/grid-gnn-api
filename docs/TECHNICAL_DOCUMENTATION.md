@@ -2,7 +2,7 @@
 
 **Project:** Rodic InfraAI Innovation Challenge 2026 — *AI for India Energy Stack*
 **Team:** Crystal Paradigm
-**Live MVP:** API `https://grid-gnn-api.onrender.com` · Dashboard `https://grid-gnn-dashboard.vercel.app` (frontend import pending at time of writing)
+**Live MVP:** API `https://grid-gnn-api.onrender.com` · Dashboard `https://grid-gnn-dashboard.vercel.app`
 **Document date:** 8 October 2026
 
 ---
@@ -199,13 +199,17 @@ tampering with hidden labels cannot change any served feature.
 All models emit raw scores that are Platt-calibrated on validation data;
 operating thresholds are gated on a validation precision target and explicitly
 disable inspection flags when the target is unattainable (the honest behaviour
-with 6 usable positive inspections). The demo deployment serves **M0 + M1**;
-the supervised models require the labelled 60-day context.
+with 6 usable positive inspections). M0–M4 are all loaded in the live artifact (M0 default, inspection-calibrated; M2–M4 are declared oracle-track models trained on hidden truth — labelled as such in selected_model.json, /health and the UI).
 
 ### 4.4 API surface
 
 `GET /health` → service status, selected model, **fitted-model list**, training
-provenance note, config hash, `automated_enforcement: false`.
+provenance note, config hash, `automated_enforcement: false`, and an
+`ies_v0_4_alignment` object.
+
+- `GET /ies/manifest` — machine-readable India Energy Stack (IES) v0.4 alignment (building blocks BB1/BB3/BB4/BB5, data-exchange schema mapping, `central_database: false`).
+
+Note: meter/DT rows in `/score` responses also carry `recommended_action` / `assigned_owner` / `target_sla` / `rdss_mis_code`, plus a DT `loss_attribution` 4-way split.
 
 `POST /score` — request (all fields validated by strict Pydantic models, extra
 fields forbidden, NaN/Inf rejected):
@@ -258,9 +262,21 @@ configured API, and can target any backend via `?api=<url>`.
   the API self-reports its hash so a reviewer can tie a response to an exact
   configuration.
 - Local pre-deployment verification: container-identical run measured at
-  314 MB RSS (fits Render's 512 MB free tier), 0.53 s scoring runtime.
+314 MB RSS (fits Render's 512 MB free tier), 0.53 s scoring runtime.
+
+### 4.7 India Energy Stack (IES) v0.4 alignment
+
+| Building block | Implementation in this PoC |
+|---|---|
+| BB1 — Identity | `meter_id` / `dt_id` are federated asset & consumer identifiers; the scorer is stateless, so MDM, GIS and billing systems keep their own stores and cross-reference by identifier — no central database. |
+| BB3 — Interaction protocols | `POST /score` is a stateless request/acknowledgement flow; every response is bound to `config_hash` and `model_sha256`, giving non-repudiable inference records across utility boundaries. |
+| BB4 — Energy data exchange | Standard 15-minute block-interval schema (`readings[]`, `dt_readings[]`); only consent/purpose-bound interval arrays hit the interface — raw consumer data never leaves the host utility. |
+| BB5 — Energy credentials | Append-only `audit_log.jsonl` entries carry model/config provenance so a DISCOM engineer can defend a vigilance ticket to a SERC regulator (Electricity Act s.126/s.135). |
+
+Machine-readable manifest: `GET /ies/manifest`; live summary block: `GET /health` → `ies_v0_4_alignment`.
 
 ---
+
 
 ## 5. Evaluation and results
 
@@ -279,6 +295,8 @@ only — six usable positives dataset-wide.
 invisible at meters (median rank 880) — with the DT-level balance signal
 reported honestly as weak on this dataset (AUC 0.542), consistent with the
 audit's unresolved hooking-onset semantics.
+
+- Inspection-budget yield (Precision@K): Track B (declared oracle) p@10 = 0.50, p@20 = 0.60, p@50 = 0.64 (5.3–6.8× lift over 9.4% base); Track A p@50 = 0.00 with ranks 127/185/505 (honestly reported; 3 usable positives). Flag threshold = predeclared 70% precision with abstention (≥5 flags).
 
 **Inherited-context benchmark** (20 seeds, DT-disjoint): best supervised model
 PR-AUC 0.644 [0.584, 0.707]; graph model M4 paired Δ −0.041 [−0.106, 0.049]
@@ -412,9 +430,12 @@ telemetry. Our commitment before any real data enters this system:
 - The supervised models (M2–M4) are only meaningful with a labelled context;
   the demo's inspection-only policy limits them by design.
 - Model artefacts are bound to synthetic class mixes; recalibration on real
-  utility data is a prerequisite to any pilot, not an afterthought.
+utility data is a prerequisite to any pilot, not an afterthought.
+- Honest-fault pooled FPR: **47.3% (recorded run) / 46.2% (reproduced)** — both values are published (`results/known_issues.md`, `results/claims_register.csv`); the gap is documented float/reporting drift, not a contradiction.
+- Runtime scopes: **0.53 s** in-process scoring compute; **1.9–2.2 s** end-to-end HTTP API latency; **15–30 s** free-tier cold-start wake (worst case ~60 s).
 
 ---
+
 
 ## 10. Artefact map
 
