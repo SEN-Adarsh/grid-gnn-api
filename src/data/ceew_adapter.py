@@ -243,3 +243,108 @@ def build_window(district: str, win: dict, cfg: dict | None = None):
     info = {'meters': kept_sorted,
             'dt_of_meter': {mid: i // m for i, mid in enumerate(kept_sorted)}}
     return obs, info
+
+
+# ---- Stage 3: theft injection (Zidi et al. 2023, Sec. 3.2) + DT-hook -------
+MANIFEST_PATH = CEEW_BASE / 'manifest.json'
+PREVALENCE = 0.09
+HOOK_U = (0.05, 0.15)
+
+
+def assign_types(meter_ids: list[str], prevalence: float = PREVALENCE) -> dict:
+    """Type fixed per meter across all windows (seed 42, order-independent)."""
+    types = {}
+    for mid in sorted(meter_ids):
+        rng = meter_rng(mid, salt=1)
+        types[mid] = int(rng.integers(1, 7)) if rng.random() < prevalence else None
+    return types
+
+
+def apply_theft(day: np.ndarray, theft_type: int, rng: np.random.Generator) -> np.ndarray:
+    """Zidi et al. (2023) Sec. 3.2 six-type generator on one day vector."""
+    y = np.asarray(day, dtype=np.float64).copy()
+    L = len(y)
+    hour_slots = max(L // 24, 1)
+    if theft_type == 1:
+        y = y * rng.uniform(0.1, 0.8)
+    elif theft_type == 2:
+        min_slots = 4 * hour_slots                    # >= 4 hours
+        if L > min_slots:
+            dur = int(rng.integers(min_slots, L + 1))
+            start = int(rng.integers(0, L - dur + 1))
+            y[start:start + dur] = 0.0
+        else:
+            y[:] = 0.0
+    elif theft_type == 3:
+        y = y * rng.uniform(0.1, 0.8, size=L)
+    elif theft_type == 4:
+        y = rng.uniform(0.1, 0.8, size=L) * np.nanmean(y)
+    elif theft_type == 5:
+        y[:] = np.nanmean(y)
+    elif theft_type == 6:
+        y = y[::-1].copy()
+    else:
+        raise ValueError(f'unknown theft type {theft_type}')
+    return y
+
+
+def inject_window(obs, types: dict, win: dict, win_index: int):
+    """Return (copy of obs with reported kwh injected + optional DT-hook, manifest row).
+
+    Only complete days are injected. DT-hook (our extension beyond Zidi) adds
+    energy to dt_kwh only -- meter readings untouched.
+    """
+    import copy as _copy
+    rep = _copy.deepcopy(obs)
+    d = obs.cfg['n_dts']
+    positives, injected_days_total = [], 0
+    for i, mid in enumerate(rep.meters.meter_id):
+        t = types.get(mid)
+        if t is None:
+            continue
+        kwh_row = rep.kwh[i]
+        complete = np.isfinite(kwh_row).reshape(WINDOW_DAYS, 96).all(axis=1)
+        n_days = 0
+        rng = meter_rng(mid, salt=win_index + 100)
+        for day in np.flatnonzero(complete):
+            sl = slice(day * 96, (day + 1) * 96)
+            kwh_row[sl] = apply_theft(kwh_row[sl].astype(np.float64), t, rng)
+            n_days += 1
+        rep.missing[i] = ~np.isfinite(kwh_row)
+        if n_days > 0:
+            removed = float(np.nansum(obs.kwh[i]) - np.nansum(kwh_row))
+            positives.append({'meter_id': mid, 'type': f'theft_{t}',
+                              'injected_days': n_days, 'kwh_removed': round(removed, 3)})
+            injected_days_total += n_days
+    # DT-hook extension: inflate dt input on a few DTs (never on meter rows)
+    hooks = []
+    n_hook = min(2, max(0, d - 1))
+    if n_hook:
+        hrng = meter_rng(f"hook:{win['window_id']}", salt=win_index)
+        hooked = sorted(hrng.choice(d, size=n_hook, replace=False).tolist())
+        for g in hooked:
+            u_draws = hrng.uniform(*HOOK_U, size=WINDOW_DAYS)
+            for day in range(WINDOW_DAYS):
+                sl = slice(day * 96, (day + 1) * 96)
+                mean_load = float(np.mean(rep.dt_kwh[g, sl]))
+                if mean_load > 0:
+                    rep.dt_kwh[g, sl] += u_draws[day] * mean_load
+            hooks.append({'dt_id': int(g), 'u_mean': round(float(u_draws.mean()), 4)})
+    row = {'window_id': win['window_id'], 'district': win['district'],
+           'positives': positives, 'hooks': hooks,
+           'injected_days_total': injected_days_total}
+    return rep, row
+
+
+def write_manifest(meter_types: dict, window_rows: list[dict],
+                   skipped_windows: list[dict]) -> None:
+    manifest = {'seed': 42, 'prevalence': PREVALENCE,
+                'dt_hook': 'our extension beyond Zidi et al. 2023',
+                'meter_types': {k: (f'theft_{v}' if v else None)
+                                for k, v in sorted(meter_types.items())},
+                'windows': window_rows, 'skipped_windows': skipped_windows}
+    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+
+
+def read_manifest() -> dict:
+    return json.loads(MANIFEST_PATH.read_text(encoding='utf-8'))

@@ -159,3 +159,96 @@ def test_build_window_missing_slot_becomes_missing_mask(monkeypatch):
     obs, info = build_window("BR", win, _win_cfg())
     assert obs.missing[0].sum() == 1
     assert np.isnan(obs.kwh[0, :]).sum() == 1
+
+
+# ---- Task 3: theft injection + manifest ------------------------------------
+from src.data.ceew_adapter import apply_theft, assign_types, inject_window
+
+
+def test_assign_types_deterministic_and_prevalence():
+    ids = [f"CEEW-BR{i:02d}" for i in range(80)]
+    t1 = assign_types(ids, prevalence=0.09)
+    t2 = assign_types(ids, prevalence=0.09)
+    assert t1 == t2
+    thieves = [k for k, v in t1.items() if v is not None]
+    assert 4 <= len(thieves) <= 12            # ~9% of 80
+    assert all(1 <= v <= 6 for v in t1.values() if v is not None)
+
+
+def test_apply_theft_type_shapes():
+    rng = np.random.default_rng(1)
+    day = np.array([1.0] * 96)
+    t1 = apply_theft(day, 1, rng)
+    assert 0.1 <= t1.mean() <= 0.8
+    t2 = apply_theft(day, 2, np.random.default_rng(2))
+    zeros = np.flatnonzero(t2 == 0)
+    assert len(zeros) >= 16                   # >= 4 h at 15-min
+    assert (np.diff(zeros) == 1).all()        # contiguous
+    t3 = apply_theft(day, 3, np.random.default_rng(3))
+    assert ((t3 >= 0.1) & (t3 <= 0.8)).all()
+    t4 = apply_theft(day, 4, np.random.default_rng(4))
+    assert ((t4 >= 0.1) & (t4 <= 0.8)).all()
+    t5 = apply_theft(day, 5, np.random.default_rng(5))
+    assert np.allclose(t5, 1.0)
+    t6 = apply_theft(day, 6, np.random.default_rng(6))
+    np.testing.assert_allclose(t6.sum(), day.sum())
+
+
+def test_apply_theft_preserves_total_on_t6_with_profile():
+    day = 0.4 + 0.3 * np.sin(np.arange(96) * 2 * np.pi / 96)
+    t6 = apply_theft(day.copy(), 6, np.random.default_rng(7))
+    np.testing.assert_allclose(t6.sum(), day.sum(), rtol=1e-9)
+
+
+def _obs_for_inject(monkeypatch):
+    import src.data.ceew_adapter as A
+    meter_ids = [f"CEEW-BR{i:02d}" for i in range(12)]
+    frame = _frame_14d(meter_ids)
+    monkeypatch.setattr(A, "load_district", lambda d: frame)
+    win = {"window_id": "BR-2020-01", "district": "BR", "start": "2020-01-01",
+           "end": "2020-01-15", "n_dts": 2, "meters_per_dt": 6,
+           "kept_meters": sorted(meter_ids), "dropped_meters": [],
+           "n_valid_before_drop": 12}
+    obs, info = A.build_window("BR", win, _win_cfg())
+    return obs, info, win, meter_ids
+
+
+def test_inject_isolates_meters_and_dt(monkeypatch):
+    obs, info, win, meter_ids = _obs_for_inject(monkeypatch)
+    types = {mid: None for mid in meter_ids}
+    types[meter_ids[0]] = 1                   # one thief, type 1
+    types[meter_ids[5]] = 5                   # one thief, type 5 (flatline)
+    orig_kwh = obs.kwh.copy()
+    rep, row = inject_window(obs, types, win, win_index=0)
+    # untouched meters identical
+    np.testing.assert_array_equal(rep.kwh[1], obs.kwh[1])
+    # thieves changed
+    assert not np.allclose(rep.kwh[0], obs.kwh[0], equal_nan=True)
+    # type-5 thief is flat on injected days (day 0)
+    flat = rep.kwh[5, :96]
+    assert np.nanstd(flat) < 1e-6
+    # manifest row shape
+    row_keys = set(row)
+    assert "positives" in row_keys and "hooks" in row_keys
+    assert len(row["positives"]) == 2
+    # missing mask invariant
+    assert (rep.missing == ~np.isfinite(rep.kwh)).all()
+    # original obs not mutated (deepcopy)
+    np.testing.assert_array_equal(obs.kwh, orig_kwh)
+
+
+def test_inject_hook_touches_only_dt(monkeypatch):
+    obs, info, win, meter_ids = _obs_for_inject(monkeypatch)
+    types = {mid: None for mid in meter_ids}
+    before_kwh = obs.kwh.copy()
+    before_dt = obs.dt_kwh.copy()
+    rep, row = inject_window(obs, types, win, win_index=0)
+    np.testing.assert_array_equal(rep.kwh, before_kwh)   # no meter positives -> no meter edits
+    hooked = [h["dt_id"] for h in row["hooks"]]
+    assert hooked, "d=2 should allow 1 hook"
+    diff = np.abs(rep.dt_kwh - before_dt).sum()
+    assert diff > 0
+    # only hooked DTs changed
+    for g in range(obs.dt_kwh.shape[0]):
+        if g not in hooked:
+            np.testing.assert_array_equal(rep.dt_kwh[g], before_dt[g])
