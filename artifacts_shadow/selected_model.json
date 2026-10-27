@@ -1,0 +1,57 @@
+{
+  "model": "M0",
+  "config_hash": "258a4ba4f71fff26",
+  "profile_source": "synthetic_india_v2",
+  "dataset": "merged demo cohort: 500 meters, 10 DTs, 14 days (demo_only_14d partition of the audit pack)",
+  "training_data": "M0/M1: unsupervised residual/isolation features, Platt calibration on quarantined-clean inspection labels (2 theft_found, 31 no_theft); M2/M3/M4: TRAINED ON HIDDEN TRUTH \u2014 declared oracle-track demo models only (DT-disjoint 7/3 split), never the default",
+  "models_available": [
+    "M0",
+    "M1",
+    "M2",
+    "M3",
+    "M4"
+  ],
+  "models_training": {
+    "M0": "untrained rule; Platt on inspection labels (Track A compliant)",
+    "M1": "IsolationForest unsupervised; Platt on inspection labels",
+    "M2": "RandomForest on hidden truth \u2014 DECLARED ORACLE-TRACK demo model",
+    "M3": "RandomForest (own+context) on hidden truth \u2014 DECLARED ORACLE-TRACK demo model",
+    "M4": "TemporalGraphNet on hidden truth \u2014 DECLARED ORACLE-TRACK demo model"
+  },
+  "oracle_split": {
+    "train_dts": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "val_dts": [
+      7,
+      8,
+      9
+    ],
+    "positives_train": 72,
+    "positives_val": 6
+  },
+  "gnn_global_permutation_importance": [
+    {
+      "group": "temporal_statistics",
+      "validation_pr_auc_decrease": 0.041406485969553264
+    },
+    {
+      "group": "peer_aggregates",
+      "validation_pr_auc_decrease": 0.003874994102850332
+    },
+    {
+      "group": "dt_residual",
+      "validation_pr_auc_decrease": 0.018211379801004277
+    },
+    {
+      "group": "voltage",
+      "validation_pr_auc_decrease": 0.013848982898318957
+    }
+  ]
+}

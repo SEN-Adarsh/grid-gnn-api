@@ -9,3 +9,4 @@ results/merged_demo/audit_log.jsonl
 /data/
 .venv/
 *.log
+artifacts_shadow/demo_context.joblib
