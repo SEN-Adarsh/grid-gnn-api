@@ -70,8 +70,13 @@ def _oracle_targets(extras, meters) -> np.ndarray:
     return oracle.is_theft.to_numpy(int)
 
 
+def _builder_config_path() -> Path:
+    """GRID_CONFIG selects the build config (shadow builds); default preserved."""
+    return ROOT / os.environ.get('GRID_CONFIG', 'configs/merged_demo.yaml')
+
+
 def build_merged_artifacts() -> dict:
-    cfg = load_config(ROOT / 'configs' / 'merged_demo.yaml')
+    cfg = load_config(_builder_config_path())
     artifacts = ROOT / cfg['artifacts_dir']
     artifacts.mkdir(parents=True, exist_ok=True)
 

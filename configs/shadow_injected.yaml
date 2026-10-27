@@ -1,0 +1,10 @@
+extends: final.yaml
+# Track D shadow build: injected training data -> artifacts_shadow/.
+# NEVER served; shadow models are a declared offline study only.
+profile_source: synthetic_india_v2
+n_dts: 10
+meters_per_dt: 44
+days: 14
+baseline_days: 7
+artifacts_dir: artifacts_shadow
+output_dir: results/track_d
