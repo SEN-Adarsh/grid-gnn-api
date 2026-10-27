@@ -201,7 +201,7 @@ class Scorer:
                 allocations[ix] = f.dt_estimate[g] * weights[ix] / denom
             alloc_total = float(allocations[ix].sum())
             alloc_frozen = float(allocations[ix][frozen_sig[ix]].sum())
-            alloc_tamper = max(alloc_total - alloc_frozen, 0.0)
+            alloc_tamper = max(alloc_total - alloc_frozen, 0.0)  # frozen subset of flagged by construction; clamp guards float round-off
             unexplained = float(f.dt_estimate[g])
             hooking = max(unexplained - alloc_tamper - alloc_frozen, 0.0)
             tech = float(f.estimated_loss[g, f.start:end].sum())

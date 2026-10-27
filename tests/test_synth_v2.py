@@ -148,7 +148,7 @@ def test_backward_compat():
         # +4-way loss attribution + work-order fields + selection-driven
         # profile_source (all deltas documented in docs/HANDOFF_LOG.md).
         'app/api.py': '5d6642294dbffda79788f24da6e5482a1c90b478b53c311ff4652be978c226ec',
-        'app/scoring.py': '3d2c6efdb159d2e081b0692110fe9e24dff7768dfb72825855aab4337a5d49bc',
+        'app/scoring.py': '106eab746dd75cd183d6a0ce5c827f20b6f2dd6cc34c9e437f329372342d9a3d',
     }
     for rel, want in pinned.items():
         assert hash_file(ROOT / rel) == want, f'{rel} drifted from the WP-0-pinned version'
