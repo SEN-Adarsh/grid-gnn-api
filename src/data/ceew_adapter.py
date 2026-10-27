@@ -10,12 +10,14 @@ from __future__ import annotations
 
 import json
 import os
-import zlib
 from functools import lru_cache
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+from src.data.theft_inject import (  # noqa: F401  (re-export; Track C imports these here)
+    INJECT_START_DAY, PREVALENCE, apply_theft, assign_types, meter_rng)
 
 CEEW_BASE = Path(os.environ.get('CEEW_DATA_DIR', 'D:/rodic/ceew_data'))
 RAW = CEEW_BASE / 'raw'
@@ -24,10 +26,6 @@ WINDOWS_JSON = CEEW_BASE / 'windows.json'
 TZ = 'Asia/Kolkata'
 WINDOW_DAYS = 14
 WINDOW_STEPS = WINDOW_DAYS * 96
-# Assessment-only injection: build_features uses days 0-6 as the clean
-# own-history baseline and days 7-13 as the assessment window; injecting the
-# baseline too would self-cancel every ratio feature (both terms scaled).
-INJECT_START_DAY = 7
 
 DISTRICT_FILES = {
     'BR': ['SM Cleaned Data BR2019.csv',
@@ -39,11 +37,6 @@ DISTRICT_FILES = {
 }
 RAW_COLS = ['x_Timestamp', 't_kWh', 'z_Avg Voltage (Volt)', 'z_Avg Current (Amp)',
             'y_Freq (Hz)', 'meter']
-
-
-def meter_rng(meter_id: str, salt: int = 0) -> np.random.Generator:
-    """Order-independent deterministic RNG per meter (seed 42 + crc32 + salt)."""
-    return np.random.default_rng([42, zlib.crc32(meter_id.encode()), salt])
 
 
 def resample_15min(df: pd.DataFrame) -> pd.DataFrame:
@@ -251,56 +244,7 @@ def build_window(district: str, win: dict, cfg: dict | None = None):
 
 # ---- Stage 3: theft injection (Zidi et al. 2023, Sec. 3.2) + DT-hook -------
 MANIFEST_PATH = CEEW_BASE / 'manifest.json'
-PREVALENCE = 0.09
 HOOK_U = (0.05, 0.15)
-
-
-def assign_types(meter_ids: list[str], prevalence: float = PREVALENCE) -> dict:
-    """Type fixed per meter across all windows (seed 42, order-independent).
-
-    Exact-k selection: the round(prevalence*n) meters with the lowest per-meter
-    hash draws are thieves, so realized prevalence matches the spec (a Bernoulli
-    draw on 84 meters landed at 3.6% vs the specified 9%)."""
-    ids = sorted(meter_ids)
-    n_thieves = min(len(ids), max(0, int(round(prevalence * len(ids)))))
-    ranked = sorted(ids, key=lambda mid: (meter_rng(mid, salt=1).random(), mid))
-    thieves = set(ranked[:n_thieves])
-    types = {}
-    for mid in ids:
-        if mid in thieves:
-            rng = meter_rng(mid, salt=2)
-            types[mid] = int(rng.integers(1, 7))
-        else:
-            types[mid] = None
-    return types
-
-
-def apply_theft(day: np.ndarray, theft_type: int, rng: np.random.Generator) -> np.ndarray:
-    """Zidi et al. (2023) Sec. 3.2 six-type generator on one day vector."""
-    y = np.asarray(day, dtype=np.float64).copy()
-    L = len(y)
-    hour_slots = max(L // 24, 1)
-    if theft_type == 1:
-        y = y * rng.uniform(0.1, 0.8)
-    elif theft_type == 2:
-        min_slots = 4 * hour_slots                    # >= 4 hours
-        if L > min_slots:
-            dur = int(rng.integers(min_slots, L + 1))
-            start = int(rng.integers(0, L - dur + 1))
-            y[start:start + dur] = 0.0
-        else:
-            y[:] = 0.0
-    elif theft_type == 3:
-        y = y * rng.uniform(0.1, 0.8, size=L)
-    elif theft_type == 4:
-        y = rng.uniform(0.1, 0.8, size=L) * np.nanmean(y)
-    elif theft_type == 5:
-        y[:] = np.nanmean(y)
-    elif theft_type == 6:
-        y = y[::-1].copy()
-    else:
-        raise ValueError(f'unknown theft type {theft_type}')
-    return y
 
 
 def inject_window(obs, types: dict, win: dict, win_index: int):
