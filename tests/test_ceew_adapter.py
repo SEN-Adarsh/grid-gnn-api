@@ -252,3 +252,33 @@ def test_inject_hook_touches_only_dt(monkeypatch):
     for g in range(obs.dt_kwh.shape[0]):
         if g not in hooked:
             np.testing.assert_array_equal(rep.dt_kwh[g], before_dt[g])
+
+
+# ---- Task 4: end-to-end build -> inject -> features -> frozen models --------
+def test_end_to_end_models_on_fixture(monkeypatch, tmp_path):
+    """Full path: build_window -> inject -> build_features -> all five models."""
+    import joblib
+    import src.data.ceew_adapter as A
+    from src.features.build import build_features
+
+    artifact = Path(__file__).resolve().parents[1] / "artifacts_merged_demo" / "models.joblib"
+    if not artifact.exists():
+        pytest.skip("served model artifacts not present")
+    meter_ids = [f"CEEW-BR{i:02d}" for i in range(12)]
+    frame = _frame_14d(meter_ids)
+    monkeypatch.setattr(A, "load_district", lambda d: frame)
+    win = {"window_id": "BR-2020-01", "district": "BR", "start": "2020-01-01",
+           "end": "2020-01-15", "n_dts": 2, "meters_per_dt": 6,
+           "kept_meters": sorted(meter_ids), "dropped_meters": [],
+           "n_valid_before_drop": 12}
+    obs, info = A.build_window("BR", win, _win_cfg())
+    types = A.assign_types(meter_ids, prevalence=0.25)   # force some thieves
+    rep, row = A.inject_window(obs, types, win, win_index=0)
+    feats = build_features(rep)
+    models = joblib.load(artifact)
+    assert set(models) >= {"M0", "M1", "M2", "M3", "M4"}
+    for name, model in models.items():
+        score, prob = model.predict(feats)
+        assert np.all(np.isfinite(prob)), f"{name} produced non-finite prob"
+        assert prob.shape == (12,)
+    assert row["positives"], "fixture with 25% prevalence must produce positives"

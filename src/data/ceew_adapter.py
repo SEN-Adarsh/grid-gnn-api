@@ -348,3 +348,65 @@ def write_manifest(meter_types: dict, window_rows: list[dict],
 
 def read_manifest() -> dict:
     return json.loads(MANIFEST_PATH.read_text(encoding='utf-8'))
+
+
+# ---- Stage 4: batch staging of both districts ------------------------------
+def stage_all() -> dict:
+    """Resample both districts, discover windows, assign types, write stage + manifest."""
+    all_windows, all_skipped = [], []
+    district_frames = {}
+    for district in ('BR', 'MH'):
+        base = load_district(district)
+        district_frames[district] = base
+        wins, skipped = discover_windows(district, base)
+        all_windows.extend(wins)
+        all_skipped.extend(skipped)
+    STAGE.mkdir(parents=True, exist_ok=True)
+    readings = pd.concat(district_frames.values(), ignore_index=True)
+    readings = readings.sort_values(['meter_id', 'ts']).reset_index(drop=True)
+    stage = pd.DataFrame({
+        'meter_id': readings.meter_id, 'ts': readings.ts,
+        'kwh': readings.kwh, 'kvarh': 0.0, 'voltage_v': readings.voltage_v,
+        'event_flags': 0, 'is_estimated_read': False, 'is_missing': False,
+        'data_source': 'ceew_kaggle_cc0',
+    })
+    stage.to_parquet(STAGE / 'readings.parquet', index=False)
+
+    meter_ids = sorted(str(x) for x in readings.meter_id.unique())
+    types = assign_types(meter_ids)
+    # provisional district-level metadata (per-window DTs are assigned in build_window)
+    meters_rows = []
+    for mid in meter_ids:
+        district = mid.split('-')[1][:2]
+        meters_rows.append({
+            'meter_id': mid, 'gis_dt_id': f'CEEW-{district}-prov-{mid[-2:]}',
+            'feeder_id': f'CEEW-{district}-F', 'pole_id': f'CEEW-{district}-P{mid[-2:]}',
+            'phase_recorded': 'A', 'category': 'residential', 'tariff_class': 'urban_flat',
+            'sanctioned_load_kw': 5.0, 'install_date': pd.Timestamp('2019-05-01'),
+            'meter_replaced_on': pd.NaT, 'lat': 0.0, 'lon': 0.0,
+            'has_event_log': False, 'data_source': 'ceew_kaggle_cc0',
+            'district': district,
+        })
+    pd.DataFrame(meters_rows).to_parquet(STAGE / 'meters.parquet', index=False)
+
+    prov_edges = []
+    for district in ('BR', 'MH'):
+        d_meters = [r for r in meters_rows if r['district'] == district]
+        for r in d_meters:
+            prov_edges.append({'from_node': r['pole_id'], 'to_node': r['gis_dt_id'] + '_bus',
+                               'r_ohm': 0.01, 'x_ohm': 0.001, 'length_m': 50,
+                               'conductor_type': 'lv_al', 'data_source': 'ceew_kaggle_cc0'})
+    pd.DataFrame(prov_edges).to_parquet(STAGE / 'topology_edges.parquet', index=False)
+
+    WINDOWS_JSON.write_text(json.dumps(
+        {'windows': all_windows, 'skipped': all_skipped}, indent=2), encoding='utf-8')
+    write_manifest(types, [], all_skipped)   # window rows appended during eval
+    return {'windows': len(all_windows), 'skipped': len(all_skipped),
+            'window_ids': [w['window_id'] for w in all_windows],
+            'meters': len(meter_ids),
+            'thieves': sum(1 for v in types.values() if v)}
+
+
+if __name__ == '__main__':
+    summary = stage_all()
+    print(json.dumps(summary, indent=2))
