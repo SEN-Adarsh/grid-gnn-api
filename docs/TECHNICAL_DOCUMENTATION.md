@@ -207,7 +207,7 @@ with 6 usable positive inspections). M0–M4 are all loaded in the live artifact
 provenance note, config hash, `automated_enforcement: false`, and an
 `ies_v0_4_alignment` object.
 
-- `GET /ies/manifest` — machine-readable India Energy Stack (IES) v0.4 alignment (building blocks BB1/BB3/BB4/BB5, data-exchange schema mapping, `central_database: false`).
+- `GET /ies/manifest` — machine-readable India Energy Stack (IES) v0.4 alignment: 6-column building-block matrix (WHO/WHERE/HOW/WHAT-Public/WHAT-Private/PROOF with Core/Supporting roles), Stage 1 framing, Scenarios 2/4, Risks 2/5, Annexures A1.2/A1.4/A1.6/A1.7/A2.1, `central_database: false`.
 
 Note: meter/DT rows in `/score` responses also carry `recommended_action` / `assigned_owner` / `target_sla` / `rdss_mis_code`, plus a DT `loss_attribution` 4-way split.
 
