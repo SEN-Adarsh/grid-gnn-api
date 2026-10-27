@@ -266,14 +266,22 @@ configured API, and can target any backend via `?api=<url>`.
 
 ### 4.7 India Energy Stack (IES) v0.4 alignment
 
-| Building block | Implementation in this PoC |
-|---|---|
-| BB1 — Identity | `meter_id` / `dt_id` are federated asset & consumer identifiers; the scorer is stateless, so MDM, GIS and billing systems keep their own stores and cross-reference by identifier — no central database. |
-| BB3 — Interaction protocols | `POST /score` is a stateless request/acknowledgement flow; every response is bound to `config_hash` and `model_sha256`, giving non-repudiable inference records across utility boundaries. |
-| BB4 — Energy data exchange | Standard 15-minute block-interval schema (`readings[]`, `dt_readings[]`); only consent/purpose-bound interval arrays hit the interface — raw consumer data never leaves the host utility. |
-| BB5 — Energy credentials | Append-only `audit_log.jsonl` entries carry model/config provenance so a DISCOM engineer can defend a vigilance ticket to a SERC regulator (Electricity Act s.126/s.135). |
+**Stage 1: Validation Reference Implementation** (IES v0.4 Section 6.2 Accelerator, Section 7 Scaling Up, Pages 16-17). The solution operates as a stateless, federated scoring interface connecting to a utility's existing MDMS, GIS, ADMS/SCADA, and CIS (Annexure A2.1, Page 25), eliminating the vendor integration loops described in Scenario 4 (Pages 7-8).
 
-Machine-readable manifest: `GET /ies/manifest`; live summary block: `GET /health` → `ies_v0_4_alignment`.
+| IES v0.4 Building Block (Pages 11-12) | Role | Implementation in this PoC |
+|---|---|---|
+| WHO - Identity & Addressing | Core | `meter_id` / `dt_id` are federated asset & consumer identifiers; prevents cross-system GIS-to-MDMS indexing mismatches (Scenario 2, Page 7; A1.4 Consumer Energy Passport, Page 23) |
+| WHERE - Registries & Directories | Supporting | DER Visibility Registry (A1.2, Page 22) for prosumer reverse-flow recognition; DISCOM MDMS/GIS endpoint discovery so rooftop solar back-feed is not misclassified as tampering |
+| HOW - Interaction Protocols | Core | `POST /score` is a stateless request/acknowledgement flow; every response is bound to `config_hash` and `model_sha256`, giving non-repudiable inference records across utility boundaries (ready for API Setu / OpenForge, Section 11, Page 20) |
+| WHAT (Public) - Public Data Exchange | Supporting | Policy Pack (A1.6, Pages 23-24): AC power-flow conservation (<=1e-5 tolerance, pandapower agreement 6.74e-12 V) + 70%/50% precision thresholds with abstention (>=5 flags); config_hash `6e60f7bd16aff2ef` |
+| WHAT (Private) - Permissioned Data Exchange | Core | Standard 15-minute block-interval schema (`readings[]`, `dt_readings[]`); only consent/purpose-bound interval arrays hit the interface - raw consumer data never leaves the host utility (Data Federation, Page 10; NPSDP/DPDP Act 2023, Pages 5, 20) |
+| PROOF - Energy Credentials | Core | Append-only `audit_log.jsonl` entries carry model/config provenance; exportable as IES A1.7 DISCOM-Regulator Filing Object (Pages 13, 24) for SERC loss-truing and Electricity Act s.126/s.135 |
+
+**IES Scenarios addressed:** Scenario 2 (inconsistent asset/GIS identifiers, Page 7), Scenario 4 (DISCOM trapped in integration loops, Pages 7-8).
+**IES Risks addressed (Section 12, Pages 20-21):** Risk 2 (uneven AMI deployment), Risk 5 (quality at scale / GIS mapping inconsistency). Our 20-seed stress sweep validates this: M4 degrades to 0.482 PR-AUC under 15% AMI dropout and 0.529 under 20% GIS mapping errors, while M2 holds 0.680-0.690. In accordance with the IES Guiding Principle of Inclusivity (Page 10), M0/M1 ship as zero-label cold-start defaults for newly metered RDSS feeders.
+
+Machine-readable manifest: `GET /ies/manifest`; live summary block: `GET /health` -> `ies_v0_4_alignment`.
+
 
 ---
 
