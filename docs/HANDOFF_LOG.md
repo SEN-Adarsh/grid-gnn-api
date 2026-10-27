@@ -135,3 +135,10 @@
   Note: /score response body still carries the pinned cosmetic profile_source label
   (scoring.py is pinned); UI never displays it (provenance line omits it).
 - Frontend still awaits the user's Vercel import; repo main = 7b3dcdd.
+
+## Changes made in the 2026-10-13 Rodic-compliance session (pins updated)
+
+1. `app/scoring.py` — added 4-way DT loss attribution (`loss_attribution` on each DT row), per-meter/DT work-order fields (`recommended_action`, `assigned_owner`, `target_sla`, `rdss_mis_code`), an attribution-heuristic note, and `profile_source` now reads `selected_model.json` instead of the cosmetic literal. **All previous response keys unchanged (additive only).** WP-0 pin updated in `tests/test_synth_v2.py`.
+2. `app/api.py` — added static `ies_v0_4_alignment` block to `GET /health` and new `GET /ies/manifest`. Existing fields unchanged. Pin updated likewise.
+3. (Task 1) `.gitignore` `/data/` anchor + `src/data` committed; `merged_adapter.py` paths now env-configurable (`MERGED_DATA_DIR`, `MERGED_AUDIT_DIR`).
+4. (Task 3) `merged_context.py` now also trains M2/M3/M4 on hidden truth as DECLARED ORACLE-TRACK demo models (DT-disjoint 7/3); M0/M1 path and inspection calibration untouched.

@@ -31,6 +31,59 @@ def configured_paths():
     return cfg,ROOT/cfg['artifacts_dir'],ROOT/cfg['output_dir']
 
 
+# --- 4-way DT loss attribution + field work-order routing (Rodic Theme 1) ---
+FROZEN_ZERO_FRACTION = .5
+FROZEN_MAX_ZERO_RUN_DAYS = 2.
+FROZEN_CONSTANT_FRACTION = .9
+FROZEN_MISSING_FRACTION = .5
+TAMPER_EVENT_RATE_DAY = .5
+TAMPER_LOW_RATIO = .6
+TAMPER_VOLTAGE_GAP_SNR = 3.
+DT_HOOKING_RESIDUAL_FRACTION = .15
+DT_LOW_CONSUMER_SCORE = .5
+DT_O_AND_M_TECHNICAL_FRACTION = .10
+
+
+def _is_frozen_signature(own):
+    return bool(own[4] > FROZEN_ZERO_FRACTION or own[5] >= FROZEN_MAX_ZERO_RUN_DAYS
+                or own[6] > FROZEN_CONSTANT_FRACTION or own[10] > FROZEN_MISSING_FRACTION)
+
+
+def _is_tamper_signature(own, graph):
+    return bool(own[11] >= TAMPER_EVENT_RATE_DAY or own[1] < TAMPER_LOW_RATIO
+                or graph[10] >= TAMPER_VOLTAGE_GAP_SNR)
+
+
+def _meter_work_order(flagged, frozen, tamper, dt_resid_positive):
+    if not flagged:
+        return ('No action — remain in the monitoring pool', 'MIS Analytics Desk',
+                'Next monthly review', 'RDSS-MON-00')
+    if frozen:
+        return ('Smart-meter health check and optical-port audit (non-theft fault)',
+                'AMI Meter Operations / AMISP Field Engineer',
+                'Next 7-day billing cycle', 'RDSS-AMI-MTR')
+    if tamper and dt_resid_positive:
+        return ('Physical vigilance raid and load check (Electricity Act s.135/s.126)',
+                'Sub-Division Vigilance Squad (AEE Enforcement)',
+                'Within 48 hours', 'RDSS-VIG-135')
+    return ('Manual inspection review (score-driven)',
+            'Sub-Division Vigilance Squad (AEE Enforcement)',
+            'Within 7 days', 'RDSS-VIG-REV')
+
+
+def _dt_work_order(residual_fraction, technical_fraction, max_meter_score):
+    if residual_fraction > DT_HOOKING_RESIDUAL_FRACTION and max_meter_score < DT_LOW_CONSUMER_SCORE:
+        return ('Upstream LT line patrol for direct hooking / illegal tapping',
+                'Feeder Line Patrolman & JE (Distribution)',
+                'Within 72 hours (night/dawn patrol)', 'RDSS-LT-HOOK')
+    if technical_fraction > DT_O_AND_M_TECHNICAL_FRACTION:
+        return ('DT load balancing / phase re-jumpering / capacitor check',
+                'Sub-Division O&M Engineer (AE Maintenance)',
+                '14-day O&M schedule', 'RDSS-TECH-AUG')
+    return ('Monitor — no field action this cycle', 'MIS Analytics Desk',
+            'Next monthly review', 'RDSS-MON-00')
+
+
 def scenario(obs,name,meter_index,severity=.7,as_of=None,tamper_event=False):
     """Public-input, reversible counterfactuals. Never reads hidden labels."""
     if name=='none':return obs,[]
@@ -136,29 +189,55 @@ class Scorer:
         score,prob=model.predict(f)
         op=model.thresholds[str(self.cfg['target_precision'])]
         flag=prob>=op['threshold']
+        frozen_sig = np.array([_is_frozen_signature(f.own[i]) for i in range(len(prob))])
+        tamper_sig = np.array([_is_tamper_signature(f.own[i], f.graph[i]) for i in range(len(prob))])
         weights=prob*f.expected_load*flag
         allocations=np.zeros(len(prob))
         dt_rows=[]
         for g in range(obs.cfg['n_dts']):
-            ix=f.dt_index==g;denom=weights[ix].sum()
-            if denom>0:allocations[ix]=f.dt_estimate[g]*weights[ix]/denom
-            dt_rows.append({'dt_id':g,'unexplained_kwh':float(f.dt_estimate[g]),
-                'candidate_allocated_kwh':float(allocations[ix].sum()),
-                'unassigned_kwh':float(f.dt_estimate[g]-allocations[ix].sum()),
-                'input_kwh':float(f.dt_input_window[g]),
-                'technical_loss_estimate_kwh':float(f.estimated_loss[g,f.start:end].sum()),
-                'missing_fraction':float(obs.missing[ix,f.start:end].mean()),
-                'localisation':'DT only for unmetered upstream load; no culprit inference'})
+            ix = f.dt_index == g
+            denom = weights[ix].sum()
+            if denom > 0:
+                allocations[ix] = f.dt_estimate[g] * weights[ix] / denom
+            alloc_total = float(allocations[ix].sum())
+            alloc_frozen = float(allocations[ix][frozen_sig[ix]].sum())
+            alloc_tamper = max(alloc_total - alloc_frozen, 0.0)
+            unexplained = float(f.dt_estimate[g])
+            hooking = max(unexplained - alloc_tamper - alloc_frozen, 0.0)
+            tech = float(f.estimated_loss[g, f.start:end].sum())
+            input_window = max(float(f.dt_input_window[g]), 1.0)
+            max_score = float(prob[ix].max()) if ix.any() else 0.0
+            action = _dt_work_order(unexplained / input_window, tech / input_window, max_score)
+            dt_rows.append({'dt_id': g, 'unexplained_kwh': unexplained,
+                'candidate_allocated_kwh': alloc_total,
+                'unassigned_kwh': unexplained - alloc_total,
+                'input_kwh': float(f.dt_input_window[g]),
+                'technical_loss_estimate_kwh': tech,
+                'missing_fraction': float(obs.missing[ix, f.start:end].mean()),
+                'loss_attribution': {
+                    'technical_loss_kwh': tech,
+                    'meter_tamper_anomaly_kwh': alloc_tamper,
+                    'defective_frozen_metering_kwh': alloc_frozen,
+                    'unmetered_direct_hooking_kwh': hooking,
+                    'basis': 'technical = physics sweep; meter buckets = shares of '
+                             'unexplained energy allocated to flagged meters by signature; '
+                             'hooking = unattributed residual (patrol candidate)'},
+                'recommended_action': action[0], 'assigned_owner': action[1],
+                'target_sla': action[2], 'rdss_mis_code': action[3],
+                'localisation': 'DT only for unmetered upstream load; no culprit inference'})
         order=np.lexsort((obs.meters.meter_id.to_numpy(),-score))
         ranks=np.empty(len(order),int);ranks[order]=np.arange(1,len(order)+1)
         meters=[]
         for i,row in obs.meters.iterrows():
+            action = _meter_work_order(bool(flag[i]), bool(frozen_sig[i]), bool(tamper_sig[i]), bool(f.graph[i, 5] > 0))
             meters.append({'meter_id':row.meter_id,'dt_id':int(row.dt_id),'rank':int(ranks[i]),
                 'probability_simulated_theft':float(prob[i]),'inspection_flag':bool(flag[i]),
                 'candidate_kwh_allocation':float(allocations[i]),'category':row.category,
                 'area_type':row.area_type,'missing_fraction':float(f.own[i,10]),
                 'recorded_to_baseline_ratio':float(f.own[i,1]),
-                'reason_codes':reason_codes(f,i)})
+                'reason_codes':reason_codes(f,i),
+                'recommended_action': action[0], 'assigned_owner': action[1],
+                'target_sla': action[2], 'rdss_mis_code': action[3]})
         meters.sort(key=lambda r:r['rank'])
         history=[];packets=[]
         m=obs.cfg['meters_per_dt']
@@ -186,8 +265,11 @@ class Scorer:
             notes.append('The validation precision target was unattainable for this fitted model; inspection flags are disabled.')
         notes += ['Synthetic profiles and reference topology; probabilities are not validated for Indian field use.',
             'Candidate kWh allocation is a heuristic share of unexplained DT energy, not established theft or recovered billing.',
-            'A field inspector must verify every flag. No disconnection or penalty is automated.']
-        response=jsonable({'model':name,'profile_source':'synthetic_fallback','config_hash':self.selection['config_hash'],
+            'A field inspector must verify every flag. No disconnection or penalty is automated.',
+            '4-way DT loss attribution (technical / meter-tamper anomaly / defective-metering / '
+            'upstream-hooking patrol) is a field-routing heuristic, not established loss '
+            'accounting; every bucket requires field verification.']
+        response=jsonable({'model':name,'profile_source':self.selection.get('profile_source','synthetic_fallback'),'config_hash':self.selection['config_hash'],
             'model_sha256':self.model_sha256,
             'as_of_interval':end,'as_of_time':timestamp_for_interval(end-1),
             'telemetry_mode':'replayed telemetry','scenario':request.get('scenario','none'),

@@ -144,9 +144,11 @@ def test_backward_compat():
         'src/sim/simulator.py': '51e81ab713712ce65738aeb41b901b0962b9dbf390a74ccda306d653b9f6b0ac',
         'src/common.py': 'e04f188853ebf4521ce8db76ce46b025bdf54464263c783c396dd7095c04f470',
         # Deploy-layout api.py: inherited file + CORS middleware + /health
-        # models list (both deltas documented in docs/HANDOFF_LOG.md).
-        'app/api.py': '7ceb0c8868bde954416c32c22b43a02bc586fdf642aa62116e64583f0c8e7058',
-        'app/scoring.py': 'bf4a5f86f9d30c1da3e1f622f24025e120d34bf485cee81df8e8e76036ef3d42',
+        # models list + ies_v0_4_alignment + GET /ies/manifest; scoring.py:
+        # +4-way loss attribution + work-order fields + selection-driven
+        # profile_source (all deltas documented in docs/HANDOFF_LOG.md).
+        'app/api.py': '5d6642294dbffda79788f24da6e5482a1c90b478b53c311ff4652be978c226ec',
+        'app/scoring.py': '3d2c6efdb159d2e081b0692110fe9e24dff7768dfb72825855aab4337a5d49bc',
     }
     for rel, want in pinned.items():
         assert hash_file(ROOT / rel) == want, f'{rel} drifted from the WP-0-pinned version'
