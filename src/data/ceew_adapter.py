@@ -252,11 +252,22 @@ HOOK_U = (0.05, 0.15)
 
 
 def assign_types(meter_ids: list[str], prevalence: float = PREVALENCE) -> dict:
-    """Type fixed per meter across all windows (seed 42, order-independent)."""
+    """Type fixed per meter across all windows (seed 42, order-independent).
+
+    Exact-k selection: the round(prevalence*n) meters with the lowest per-meter
+    hash draws are thieves, so realized prevalence matches the spec (a Bernoulli
+    draw on 84 meters landed at 3.6% vs the specified 9%)."""
+    ids = sorted(meter_ids)
+    n_thieves = min(len(ids), max(0, int(round(prevalence * len(ids)))))
+    ranked = sorted(ids, key=lambda mid: (meter_rng(mid, salt=1).random(), mid))
+    thieves = set(ranked[:n_thieves])
     types = {}
-    for mid in sorted(meter_ids):
-        rng = meter_rng(mid, salt=1)
-        types[mid] = int(rng.integers(1, 7)) if rng.random() < prevalence else None
+    for mid in ids:
+        if mid in thieves:
+            rng = meter_rng(mid, salt=2)
+            types[mid] = int(rng.integers(1, 7))
+        else:
+            types[mid] = None
     return types
 
 
