@@ -1,0 +1,3811 @@
+{
+  "track": "C \u2014 real CEEW telemetry with injected labels",
+  "honesty": "REAL telemetry (CEEW Mathura/Bareilly, CC0) with SYNTHETIC injected labels (Zidi et al. 2023 + our DT-hook extension). NOT real theft labels. Virtual DTs, star topology, single-phase, no weather. No field-performance claim.",
+  "dataset": {
+    "source": "CEEW/Harvard Dataverse doi:10.7910/DVN/GOCHJH (Kaggle mirror, CC0)",
+    "interval": "15 min (resampled from 3 min)",
+    "districts": [
+      "BR",
+      "MH"
+    ],
+    "seed": 42,
+    "prevalence": 0.09
+  },
+  "n_windows": 35,
+  "skipped_windows": [],
+  "per_window": [
+    {
+      "window_id": "BR-2019-08",
+      "n_meters": 10,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.8888888888888888,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8888888888888888,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2019-09",
+      "n_meters": 14,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.8000000000000003
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.666666666666667
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6153846153846154,
+          "pr_auc": 0.16666666666666666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 3,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.8000000000000003
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.666666666666667
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9230769230769231,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.8000000000000003
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.666666666666667
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.8000000000000003
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.666666666666667
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2019-11",
+      "n_meters": 26,
+      "n_pos": 3,
+      "models": {
+        "M0": {
+          "roc_auc": 0.9855072463768116,
+          "pr_auc": 0.9166666666666665,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 5.199999999999999
+            },
+            {
+              "k": 6,
+              "hits": 3,
+              "precision": 0.5,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.927536231884058,
+          "pr_auc": 0.6984126984126984,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.466666666666667
+            },
+            {
+              "k": 6,
+              "hits": 2,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.8888888888888884
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.6376811594202898,
+          "pr_auc": 0.4444444444444444,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.7333333333333334
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 1.4444444444444442
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6086956521739131,
+          "pr_auc": 0.4366013071895425,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.7333333333333334
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 1.4444444444444442
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9710144927536233,
+          "pr_auc": 0.8666666666666667,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 5.199999999999999
+            },
+            {
+              "k": 6,
+              "hits": 3,
+              "precision": 0.5,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2019-12",
+      "n_meters": 26,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.9583333333333333,
+          "pr_auc": 0.5833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 5.2
+            },
+            {
+              "k": 6,
+              "hits": 2,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.625,
+          "pr_auc": 0.2222222222222222,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.1666666666666665
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9375,
+          "pr_auc": 0.7,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 5.2
+            },
+            {
+              "k": 6,
+              "hits": 2,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8333333333333334,
+          "pr_auc": 0.3611111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.1666666666666665
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.875,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 6,
+              "hits": 2,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-01",
+      "n_meters": 16,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 0.8666666666666667,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.2
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.8666666666666667,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.2
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9333333333333333,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.2
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9333333333333333,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.2
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9333333333333333,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.2
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-02",
+      "n_meters": 22,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.975,
+          "pr_auc": 0.8333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.875,
+          "pr_auc": 0.3666666666666667,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.85,
+          "pr_auc": 0.625,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7250000000000001,
+          "pr_auc": 0.25757575757575757,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-03",
+      "n_meters": 24,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.9090909090909091,
+          "pr_auc": 0.45,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.800000000000001
+            },
+            {
+              "k": 6,
+              "hits": 2,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.7272727272727273,
+          "pr_auc": 0.3269230769230769,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.4000000000000004
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.8863636363636364,
+          "pr_auc": 0.6428571428571428,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.4000000000000004
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8181818181818181,
+          "pr_auc": 0.3611111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.4000000000000004
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.8181818181818182,
+          "pr_auc": 0.3611111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.4000000000000004
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-04",
+      "n_meters": 32,
+      "n_pos": 3,
+      "models": {
+        "M0": {
+          "roc_auc": 0.9655172413793104,
+          "pr_auc": 0.6388888888888888,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 6.3999999999999995
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.5632183908045977,
+          "pr_auc": 0.194017094017094,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.1333333333333333
+            },
+            {
+              "k": 8,
+              "hits": 1,
+              "precision": 0.125,
+              "lift_vs_prevalence": 1.3333333333333333
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9770114942528736,
+          "pr_auc": 0.8055555555555556,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 6.3999999999999995
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9770114942528736,
+          "pr_auc": 0.8055555555555556,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 6.3999999999999995
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9655172413793104,
+          "pr_auc": 0.6388888888888888,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 6.3999999999999995
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-06",
+      "n_meters": 33,
+      "n_pos": 4,
+      "models": {
+        "M0": {
+          "roc_auc": 0.8017241379310345,
+          "pr_auc": 0.36093073593073594,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 3.09375
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.5086206896551724,
+          "pr_auc": 0.17736676016830294,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6500000000000001
+            },
+            {
+              "k": 8,
+              "hits": 2,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0625
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.7974137931034483,
+          "pr_auc": 0.6374458874458875,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 3.09375
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7629310344827587,
+          "pr_auc": 0.6553030303030303,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 3.09375
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.896551724137931,
+          "pr_auc": 0.4444444444444444,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 3.09375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-07",
+      "n_meters": 18,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.9375,
+          "pr_auc": 0.5833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 2,
+              "precision": 0.5,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.875,
+          "pr_auc": 0.45,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.25
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.78125,
+          "pr_auc": 0.375,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.25
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8125,
+          "pr_auc": 0.625,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.25
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9375,
+          "pr_auc": 0.5833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 2,
+              "precision": 0.5,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-08",
+      "n_meters": 28,
+      "n_pos": 5,
+      "models": {
+        "M0": {
+          "roc_auc": 0.782608695652174,
+          "pr_auc": 0.5523809523809523,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 3.36
+            },
+            {
+              "k": 7,
+              "hits": 4,
+              "precision": 0.5714285714285714,
+              "lift_vs_prevalence": 3.1999999999999997
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.7478260869565218,
+          "pr_auc": 0.4101449275362319,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.24
+            },
+            {
+              "k": 7,
+              "hits": 3,
+              "precision": 0.42857142857142855,
+              "lift_vs_prevalence": 2.4
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.7217391304347827,
+          "pr_auc": 0.5157142857142858,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.24
+            },
+            {
+              "k": 7,
+              "hits": 2,
+              "precision": 0.2857142857142857,
+              "lift_vs_prevalence": 1.5999999999999999
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6478260869565218,
+          "pr_auc": 0.27619047619047615,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.12
+            },
+            {
+              "k": 7,
+              "hits": 2,
+              "precision": 0.2857142857142857,
+              "lift_vs_prevalence": 1.5999999999999999
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.6608695652173913,
+          "pr_auc": 0.5339001349527666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 3,
+              "precision": 0.6,
+              "lift_vs_prevalence": 3.36
+            },
+            {
+              "k": 7,
+              "hits": 3,
+              "precision": 0.42857142857142855,
+              "lift_vs_prevalence": 2.4
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-10",
+      "n_meters": 33,
+      "n_pos": 4,
+      "models": {
+        "M0": {
+          "roc_auc": 0.728448275862069,
+          "pr_auc": 0.4375,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6500000000000001
+            },
+            {
+              "k": 8,
+              "hits": 2,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0625
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.7241379310344828,
+          "pr_auc": 0.27056277056277056,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6500000000000001
+            },
+            {
+              "k": 8,
+              "hits": 2,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0625
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.6637931034482759,
+          "pr_auc": 0.3068181818181818,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6500000000000001
+            },
+            {
+              "k": 8,
+              "hits": 2,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0625
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6637931034482758,
+          "pr_auc": 0.3742559523809524,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 2,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0625
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.7155172413793104,
+          "pr_auc": 0.36666666666666664,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.3000000000000003
+            },
+            {
+              "k": 8,
+              "hits": 3,
+              "precision": 0.375,
+              "lift_vs_prevalence": 3.09375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-11",
+      "n_meters": 22,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.825,
+          "pr_auc": 0.30952380952380953,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9249999999999999,
+          "pr_auc": 0.7,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.925,
+          "pr_auc": 0.7,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.4
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.825,
+          "pr_auc": 0.6111111111111112,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2020-12",
+      "n_meters": 20,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6944444444444444,
+          "pr_auc": 0.5769230769230769,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9722222222222223,
+          "pr_auc": 0.8333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9722222222222222,
+          "pr_auc": 0.8333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            },
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-01",
+      "n_meters": 18,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6470588235294117,
+          "pr_auc": 0.14285714285714285,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 4,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8235294117647058,
+          "pr_auc": 0.25,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.6000000000000005
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-02",
+      "n_meters": 19,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.75
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.8888888888888888,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.75
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.75
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9444444444444444,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.75
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9444444444444444,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.8000000000000003
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.75
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-03",
+      "n_meters": 17,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.4000000000000004
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.25
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.3125,
+          "pr_auc": 0.08333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 4,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.4000000000000004
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.25
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.4000000000000004
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.25
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9375,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.4000000000000004
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 4.25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-04",
+      "n_meters": 17,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.6833333333333333,
+          "pr_auc": 0.5588235294117647,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.7000000000000002
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.125
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.33333333333333337,
+          "pr_auc": 0.12878787878787878,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 4,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.6166666666666667,
+          "pr_auc": 0.5588235294117647,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.7000000000000002
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.125
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7666666666666666,
+          "pr_auc": 0.6111111111111112,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.7000000000000002
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.125
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.9333333333333333,
+          "pr_auc": 0.75,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.4000000000000004
+            },
+            {
+              "k": 4,
+              "hits": 2,
+              "precision": 0.5,
+              "lift_vs_prevalence": 4.25
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-05",
+      "n_meters": 16,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.7857142857142857,
+          "pr_auc": 0.625,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.2857142857142857,
+          "pr_auc": 0.12692307692307692,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 4,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.5714285714285714,
+          "pr_auc": 0.3125,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6071428571428571,
+          "pr_auc": 0.3125,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.6071428571428572,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-06",
+      "n_meters": 22,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 0.14285714285714285,
+          "pr_auc": 0.045454545454545456,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6190476190476191,
+          "pr_auc": 0.1111111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.11904761904761907,
+          "pr_auc": 0.045454545454545456,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.11904761904761907,
+          "pr_auc": 0.045454545454545456,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.19047619047619047,
+          "pr_auc": 0.05555555555555555,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-07",
+      "n_meters": 20,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 0.2368421052631579,
+          "pr_auc": 0.05,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.42105263157894735,
+          "pr_auc": 0.08333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.42105263157894735,
+          "pr_auc": 0.08333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.2894736842105263,
+          "pr_auc": 0.05263157894736842,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.1578947368421053,
+          "pr_auc": 0.058823529411764705,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-08",
+      "n_meters": 20,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.8055555555555556,
+          "pr_auc": 0.6111111111111112,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.4722222222222222,
+          "pr_auc": 0.1588235294117647,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.7777777777777778,
+          "pr_auc": 0.6,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7222222222222222,
+          "pr_auc": 0.2361111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.7777777777777778,
+          "pr_auc": 0.6,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-09",
+      "n_meters": 24,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 0.3913043478260869,
+          "pr_auc": 0.06666666666666667,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 6,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.13043478260869568,
+          "pr_auc": 0.047619047619047616,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 6,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.9565217391304348,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 4.800000000000001
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.8260869565217391,
+          "pr_auc": 0.2,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 4.800000000000001
+            },
+            {
+              "k": 6,
+              "hits": 1,
+              "precision": 0.16666666666666666,
+              "lift_vs_prevalence": 4.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.4347826086956522,
+          "pr_auc": 0.07142857142857142,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 6,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "BR-2021-10",
+      "n_meters": 19,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.7647058823529411,
+          "pr_auc": 0.6,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.5588235294117647,
+          "pr_auc": 0.16666666666666666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 4,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.8529411764705882,
+          "pr_auc": 0.6428571428571428,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7941176470588235,
+          "pr_auc": 0.29166666666666663,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.6470588235294117,
+          "pr_auc": 0.5714285714285714,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-05",
+      "n_meters": 16,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.5714285714285714,
+          "pr_auc": 0.5625,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6428571428571428,
+          "pr_auc": 0.34090909090909094,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.625,
+          "pr_auc": 0.5625,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.5357142857142857,
+          "pr_auc": 0.1875,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.6071428571428572,
+          "pr_auc": 0.5769230769230769,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-06",
+      "n_meters": 30,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.4910714285714286,
+          "pr_auc": 0.19999999999999998,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 7,
+              "hits": 1,
+              "precision": 0.14285714285714285,
+              "lift_vs_prevalence": 2.142857142857143
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.4464285714285714,
+          "pr_auc": 0.13448275862068965,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 7,
+              "hits": 1,
+              "precision": 0.14285714285714285,
+              "lift_vs_prevalence": 2.142857142857143
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.5803571428571429,
+          "pr_auc": 0.2833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 7,
+              "hits": 1,
+              "precision": 0.14285714285714285,
+              "lift_vs_prevalence": 2.142857142857143
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6517857142857143,
+          "pr_auc": 0.5434782608695652,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 7,
+              "hits": 1,
+              "precision": 0.14285714285714285,
+              "lift_vs_prevalence": 2.142857142857143
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.75,
+          "pr_auc": 0.31666666666666665,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 7,
+              "hits": 1,
+              "precision": 0.14285714285714285,
+              "lift_vs_prevalence": 2.142857142857143
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-07",
+      "n_meters": 16,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.8571428571428571,
+          "pr_auc": 0.6666666666666666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6785714285714286,
+          "pr_auc": 0.5909090909090909,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.75,
+          "pr_auc": 0.375,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.7857142857142856,
+          "pr_auc": 0.3333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.8571428571428572,
+          "pr_auc": 0.6666666666666666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.6
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-09",
+      "n_meters": 19,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.6176470588235294,
+          "pr_auc": 0.3026315789473684,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6176470588235294,
+          "pr_auc": 0.3214285714285714,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.588235294117647,
+          "pr_auc": 0.3026315789473684,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6323529411764706,
+          "pr_auc": 0.5526315789473684,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.7941176470588235,
+          "pr_auc": 0.375,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.9000000000000001
+            },
+            {
+              "k": 4,
+              "hits": 1,
+              "precision": 0.25,
+              "lift_vs_prevalence": 2.375
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-11",
+      "n_meters": 14,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.625,
+          "pr_auc": 0.5909090909090909,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.4000000000000001
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.3333333333333335
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.5416666666666667,
+          "pr_auc": 0.5769230769230769,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.4000000000000001
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.3333333333333335
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.2916666666666667,
+          "pr_auc": 0.14646464646464646,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 3,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.25,
+          "pr_auc": 0.14090909090909093,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 3,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.7083333333333333,
+          "pr_auc": 0.6111111111111112,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.4000000000000001
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.3333333333333335
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2019-12",
+      "n_meters": 15,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.5961538461538461,
+          "pr_auc": 0.5666666666666667,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.5
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.6923076923076923,
+          "pr_auc": 0.6,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.5
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.5,
+          "pr_auc": 0.23333333333333334,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.5
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.5576923076923077,
+          "pr_auc": 0.23809523809523808,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.5
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.8846153846153846,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 3.0
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2020-02",
+      "n_meters": 13,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.75,
+          "pr_auc": 0.25,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 3,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.75,
+          "pr_auc": 0.25,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 3,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.6
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 4.333333333333333
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2020-04",
+      "n_meters": 10,
+      "n_pos": 1,
+      "models": {
+        "M0": {
+          "roc_auc": 0.5,
+          "pr_auc": 0.1,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.8888888888888888,
+          "pr_auc": 0.5,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.6111111111111112,
+          "pr_auc": 0.2,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.2777777777777778,
+          "pr_auc": 0.1,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.11111111111111116,
+          "pr_auc": 0.1111111111111111,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2020-07",
+      "n_meters": 10,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 0.875,
+          "pr_auc": 0.75,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.75,
+          "pr_auc": 0.6666666666666666,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.875,
+          "pr_auc": 0.5833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.9375,
+          "pr_auc": 0.8333333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 1,
+              "precision": 0.5,
+              "lift_vs_prevalence": 2.5
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 2,
+              "precision": 1.0,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2020-10",
+      "n_meters": 13,
+      "n_pos": 3,
+      "models": {
+        "M0": {
+          "roc_auc": 0.8,
+          "pr_auc": 0.7777777777777777,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 1.7333333333333334
+            },
+            {
+              "k": 3,
+              "hits": 2,
+              "precision": 0.6666666666666666,
+              "lift_vs_prevalence": 2.8888888888888884
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 0.7333333333333333,
+          "pr_auc": 0.7575757575757576,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 1.7333333333333334
+            },
+            {
+              "k": 3,
+              "hits": 2,
+              "precision": 0.6666666666666666,
+              "lift_vs_prevalence": 2.8888888888888884
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.6333333333333333,
+          "pr_auc": 0.5396825396825397,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 0.8666666666666667
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 1.4444444444444442
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.6,
+          "pr_auc": 0.373015873015873,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 0.8666666666666667
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 1.4444444444444442
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 0.6333333333333333,
+          "pr_auc": 0.5833333333333333,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 1.7333333333333334
+            },
+            {
+              "k": 3,
+              "hits": 1,
+              "precision": 0.3333333333333333,
+              "lift_vs_prevalence": 1.4444444444444442
+            }
+          ]
+        }
+      }
+    },
+    {
+      "window_id": "MH-2020-11",
+      "n_meters": 10,
+      "n_pos": 2,
+      "models": {
+        "M0": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 2,
+              "precision": 1.0,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M1": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 2,
+              "precision": 1.0,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        },
+        "M2": {
+          "roc_auc": 0.4375,
+          "pr_auc": 0.25,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M3": {
+          "roc_auc": 0.375,
+          "pr_auc": 0.225,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 1,
+              "precision": 0.2,
+              "lift_vs_prevalence": 1.0
+            },
+            {
+              "k": 2,
+              "hits": 0,
+              "precision": 0.0,
+              "lift_vs_prevalence": 0.0
+            }
+          ]
+        },
+        "M4": {
+          "roc_auc": 1.0,
+          "pr_auc": 1.0,
+          "precision_at_k": [
+            {
+              "k": 5,
+              "hits": 2,
+              "precision": 0.4,
+              "lift_vs_prevalence": 2.0
+            },
+            {
+              "k": 2,
+              "hits": 2,
+              "precision": 1.0,
+              "lift_vs_prevalence": 5.0
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "pooled": {
+    "M0": {
+      "n_meter_windows": 682,
+      "prevalence": 0.10117302052785923,
+      "roc_auc": 0.7488237936496678,
+      "pr_auc": 0.3237262402333604,
+      "mannwhitney_p_greater": 5.885402132305344e-12,
+      "per_type": {
+        "theft_1": {
+          "positives": 10,
+          "recall_at_top20pct": 0.3,
+          "mean_score_percentile": 0.8070146818923328
+        },
+        "theft_2": {
+          "positives": 15,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9574768896139206
+        },
+        "theft_3": {
+          "positives": 7,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9531577720811
+        },
+        "theft_4": {
+          "positives": 18,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9295812941816205
+        },
+        "theft_5": {
+          "positives": 10,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.3694942903752039
+        },
+        "theft_6": {
+          "positives": 9,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.23110386079390974
+        }
+      }
+    },
+    "M1": {
+      "n_meter_windows": 682,
+      "prevalence": 0.10117302052785923,
+      "roc_auc": 0.6478946497387521,
+      "pr_auc": 0.17740900419056924,
+      "mannwhitney_p_greater": 2.7725924473749868e-05,
+      "per_type": {
+        "theft_1": {
+          "positives": 10,
+          "recall_at_top20pct": 0.8,
+          "mean_score_percentile": 0.8721044045676999
+        },
+        "theft_2": {
+          "positives": 15,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9541054921152801
+        },
+        "theft_3": {
+          "positives": 7,
+          "recall_at_top20pct": 0.2857142857142857,
+          "mean_score_percentile": 0.7196457702167327
+        },
+        "theft_4": {
+          "positives": 18,
+          "recall_at_top20pct": 0.05555555555555555,
+          "mean_score_percentile": 0.6055827442450608
+        },
+        "theft_5": {
+          "positives": 10,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.3476345840130506
+        },
+        "theft_6": {
+          "positives": 9,
+          "recall_at_top20pct": 0.1111111111111111,
+          "mean_score_percentile": 0.2508609751676636
+        }
+      }
+    },
+    "M2": {
+      "n_meter_windows": 682,
+      "prevalence": 0.10117302052785923,
+      "roc_auc": 0.7486464761094167,
+      "pr_auc": 0.4005878040152744,
+      "mannwhitney_p_greater": 2.4397550108719555e-12,
+      "per_type": {
+        "theft_1": {
+          "positives": 10,
+          "recall_at_top20pct": 0.6,
+          "mean_score_percentile": 0.8455138662316476
+        },
+        "theft_2": {
+          "positives": 15,
+          "recall_at_top20pct": 0.06666666666666667,
+          "mean_score_percentile": 0.7607395323545405
+        },
+        "theft_3": {
+          "positives": 7,
+          "recall_at_top20pct": 0.7142857142857143,
+          "mean_score_percentile": 0.8680960149149383
+        },
+        "theft_4": {
+          "positives": 18,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9953779227841218
+        },
+        "theft_5": {
+          "positives": 10,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.25840130505709624
+        },
+        "theft_6": {
+          "positives": 9,
+          "recall_at_top20pct": 0.1111111111111111,
+          "mean_score_percentile": 0.37520391517128876
+        }
+      }
+    },
+    "M3": {
+      "n_meter_windows": 682,
+      "prevalence": 0.10117302052785923,
+      "roc_auc": 0.7331252807527721,
+      "pr_auc": 0.23584098595057554,
+      "mannwhitney_p_greater": 8.925891814180888e-11,
+      "per_type": {
+        "theft_1": {
+          "positives": 10,
+          "recall_at_top20pct": 0.6,
+          "mean_score_percentile": 0.8365415986949429
+        },
+        "theft_2": {
+          "positives": 15,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.7381185426862426
+        },
+        "theft_3": {
+          "positives": 7,
+          "recall_at_top20pct": 0.7142857142857143,
+          "mean_score_percentile": 0.8534141225821487
+        },
+        "theft_4": {
+          "positives": 18,
+          "recall_at_top20pct": 1.0,
+          "mean_score_percentile": 0.9350190320826536
+        },
+        "theft_5": {
+          "positives": 10,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.4
+        },
+        "theft_6": {
+          "positives": 9,
+          "recall_at_top20pct": 0.1111111111111111,
+          "mean_score_percentile": 0.3944172557549393
+        }
+      }
+    },
+    "M4": {
+      "n_meter_windows": 682,
+      "prevalence": 0.10117302052785923,
+      "roc_auc": 0.7773837387994421,
+      "pr_auc": 0.38246526143467763,
+      "mannwhitney_p_greater": 1.995016527433527e-14,
+      "per_type": {
+        "theft_1": {
+          "positives": 10,
+          "recall_at_top20pct": 0.9,
+          "mean_score_percentile": 0.9344208809135399
+        },
+        "theft_2": {
+          "positives": 15,
+          "recall_at_top20pct": 0.6666666666666666,
+          "mean_score_percentile": 0.843610657966286
+        },
+        "theft_3": {
+          "positives": 7,
+          "recall_at_top20pct": 0.8571428571428571,
+          "mean_score_percentile": 0.9291540433465393
+        },
+        "theft_4": {
+          "positives": 18,
+          "recall_at_top20pct": 0.6666666666666666,
+          "mean_score_percentile": 0.8622439731738264
+        },
+        "theft_5": {
+          "positives": 10,
+          "recall_at_top20pct": 0.0,
+          "mean_score_percentile": 0.46101141924959216
+        },
+        "theft_6": {
+          "positives": 9,
+          "recall_at_top20pct": 0.1111111111111111,
+          "mean_score_percentile": 0.5562805872756933
+        }
+      }
+    }
+  },
+  "dt_hook": {
+    "windows_with_hook": 12,
+    "hooked_rank1_rate": 1.0,
+    "mean_balance_auc": 0.9583333333333334,
+    "detail": [
+      {
+        "window_id": "BR-2019-11",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2019-12",
+        "hooked": [
+          1
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-02",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-03",
+        "hooked": [
+          1
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-04",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-06",
+        "hooked": [
+          0,
+          2
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-08",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-10",
+        "hooked": [
+          1,
+          2
+        ],
+        "balance_auc": 0.5,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2020-11",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2021-06",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "BR-2021-09",
+        "hooked": [
+          0
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      },
+      {
+        "window_id": "MH-2019-06",
+        "hooked": [
+          1
+        ],
+        "balance_auc": 1.0,
+        "hooked_in_rank1": 1
+      }
+    ],
+    "note": "DT-hook is our extension beyond Zidi et al."
+  },
+  "periodicity": {
+    "note": "WoW-PCC over full history, clean vs injected. Zheng et al. thresholds (normal > 0.8, thieves < 0.7) quoted for reference; transfer to this cohort is an empirical question (clean meters already sit far below 0.8). WoW-PCC is invariant to within-day reversal (T6) by construction: the same permutation applies to both correlated weeks.",
+    "daily_total": {
+      "n_meters": 84,
+      "mean_pcc_clean": -0.004984055742053644,
+      "mean_pcc_injected": -0.004896128603000317,
+      "share_pcc_gt_0.8_clean": 0.0,
+      "share_pcc_gt_0.8_injected": 0.0,
+      "per_type": {
+        "theft_4": {
+          "n": 1,
+          "mean_clean": 0.006819732605927161,
+          "mean_injected": 0.005342555239943403
+        },
+        "theft_2": {
+          "n": 2,
+          "mean_clean": -0.01844742948518177,
+          "mean_injected": 0.007854842833588251
+        },
+        "theft_3": {
+          "n": 2,
+          "mean_clean": 0.010849470990405691,
+          "mean_injected": 0.012952892143021892
+        },
+        "theft_5": {
+          "n": 1,
+          "mean_clean": -0.04767853640347416,
+          "mean_injected": -0.0476785364034741
+        },
+        "theft_1": {
+          "n": 1,
+          "mean_clean": 0.010662159947625864,
+          "mean_injected": -0.03728616994868368
+        },
+        "theft_6": {
+          "n": 1,
+          "mean_clean": 0.0757784905599188,
+          "mean_injected": 0.07577849055991878
+        }
+      }
+    },
+    "slot_weekly": {
+      "n_meters": 84,
+      "mean_pcc_clean": 0.22826381563073533,
+      "mean_pcc_injected": 0.21811395047643037,
+      "share_pcc_gt_0.8_clean": 0.0,
+      "share_pcc_gt_0.8_injected": 0.0,
+      "per_type": {
+        "theft_4": {
+          "n": 1,
+          "mean_clean": 0.12844523689274245,
+          "mean_injected": -0.0017470150611387366
+        },
+        "theft_2": {
+          "n": 2,
+          "mean_clean": 0.20513185505243653,
+          "mean_injected": 0.15907457023653687
+        },
+        "theft_3": {
+          "n": 2,
+          "mean_clean": 0.3378421274102342,
+          "mean_injected": 0.217829832848989
+        },
+        "theft_5": {
+          "n": 1,
+          "mean_clean": 0.3230149584748761,
+          "mean_injected": -0.04767853640347427
+        },
+        "theft_1": {
+          "n": 1,
+          "mean_clean": 0.024185779188196452,
+          "mean_injected": 0.007760375553540632
+        },
+        "theft_6": {
+          "n": 1,
+          "mean_clean": 0.2860057578050224,
+          "mean_injected": 0.2828673940645846
+        }
+      }
+    }
+  },
+  "protocol": {
+    "dt_input_from_true_loads": true,
+    "theft_touches_reported_only": true,
+    "injection_window": "assessment days 7-13 only; baseline days 0-6 stay clean so own-history features keep their reference (full injection self-cancels every ratio feature)",
+    "periodicity_lens": "full staged history (Zheng setting)",
+    "frozen_served_models": [
+      "M0",
+      "M1",
+      "M2",
+      "M3",
+      "M4"
+    ],
+    "features_unchanged": "src/features/build.py (pinned)"
+  }
+}
