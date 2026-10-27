@@ -109,3 +109,137 @@ def discover_windows(district: str, base: pd.DataFrame,
                         'kept_meters': kept, 'dropped_meters': dropped,
                         'n_valid_before_drop': len(valid)})
     return windows, skipped
+
+
+# ---- Stage 2: virtual DTs + physics-consistent dt input --------------------
+from ..common import load_config                                   # noqa: E402
+from ..sim.physics import (Topology, meter_power_to_nodes, sweep,  # noqa: E402
+                           transformer_loss)
+from ..features.build import causal_impute                         # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[2]
+CONFIG = ROOT / 'configs' / 'final.yaml'
+
+
+def star_topology(n_meters: int) -> Topology:
+    """Honest minimal LV structure: wiring unknown, root feeds each meter
+    directly with nominal cable impedance."""
+    parents = np.array([-1] + [0] * n_meters, dtype=int)
+    r = np.array([0.0] + [0.01] * n_meters, dtype=float)
+    x = np.array([0.0] + [0.001] * n_meters, dtype=float)
+    lengths = np.array([0] + [50] * n_meters, dtype=int)
+    return Topology(parents, r, x, lengths, n_meters,
+                    np.arange(1, n_meters + 1), 'ceew_star')
+
+
+def trackc_cfg(n_dts: int, meters_per_dt: int) -> dict:
+    cfg = load_config(CONFIG)
+    cfg.update(n_dts=n_dts, meters_per_dt=meters_per_dt, days=WINDOW_DAYS,
+               interval_minutes=15, baseline_days=7, profile_source='ceew_real_injected')
+    return cfg
+
+
+def _dt_input_from_true(true_kwh: np.ndarray, topo: Topology, cfg: dict,
+                        dt_voltage: np.ndarray) -> np.ndarray:
+    """dt_readings.kwh_in = sum(true) + technical loss computed with the SAME
+    physics math as build.py:186-197, applied to TRUE loads. This makes the
+    clean residual about 0 so injected theft alone creates unexplained energy."""
+    qratio = np.tan(np.arccos(cfg['power_factor']))
+    phase = np.zeros(true_kwh.shape[0], dtype=int)
+    power = true_kwh / (cfg['interval_minutes'] / 60)
+    pp, qq = meter_power_to_nodes(topo, power, phase, qratio)
+    root = np.maximum(dt_voltage, 0)
+    _, line_loss, _ = sweep(topo, pp, qq, root, cfg['solver_iterations'])
+    dt_loss = transformer_loss(pp.sum((0, 2)), qq.sum((0, 2)), cfg) * (root > 50)
+    loss = (line_loss + dt_loss) * (cfg['interval_minutes'] / 60) * cfg['loss_estimator_multiplier']
+    return true_kwh.sum(axis=0) + np.maximum(loss, 0)
+
+
+def build_window(district: str, win: dict, cfg: dict | None = None):
+    """Build Observations for one 14-day window with TRUE readings (pre-injection).
+
+    Missing slots stay NaN in obs.kwh (causal_impute convention); obs.missing
+    mirrors ~isfinite. dt arrays are zero-filled (serving convention).
+    """
+    from ..sim.simulator import Observations
+
+    base = load_district(district)
+    start = pd.Timestamp(win['start'], tz=TZ)
+    end = pd.Timestamp(win['end'], tz=TZ)
+    kept = list(win['kept_meters'])
+    d, m = win['n_dts'], win['meters_per_dt']
+    assert len(kept) == d * m
+    if cfg is None:
+        cfg = trackc_cfg(d, m)
+
+    w = base[(base.ts >= start) & (base.ts < end) & base.meter_id.isin(kept)].copy()
+    w['meter_id'] = w['meter_id'].astype(str)
+    idx = pd.MultiIndex.from_product(
+        [kept, pd.date_range(start, end, freq='15min', inclusive='left')],
+        names=['meter_id', 'ts'])
+    piv = w.set_index(['meter_id', 'ts']).reindex(idx)
+    kwh = piv.kwh.to_numpy(np.float64).reshape(len(kept), WINDOW_STEPS)
+    voltage = piv.voltage_v.to_numpy(np.float64).reshape(len(kept), WINDOW_STEPS)
+    current = piv.current_a.to_numpy(np.float64).reshape(len(kept), WINDOW_STEPS)
+    missing = ~np.isfinite(kwh)
+
+    # meters sorted by (dt_id, meter_id): dt = original position // m
+    meters = pd.DataFrame({
+        'meter_id': kept,
+        'dt_id': np.repeat(np.arange(d), m),
+        'phase': 0,
+        'category': 'residential',
+        'area_type': 'real_india_urban',
+        'sanctioned_load_kw': 5.0,
+    })
+    sort_key = np.lexsort((np.array(kept), meters.dt_id.to_numpy()))
+    kept_sorted = [kept[i] for i in sort_key]
+    meters = meters.iloc[sort_key].reset_index(drop=True)
+    kwh, voltage, current, missing = (a[sort_key] for a in (kwh, voltage, current, missing))
+
+    # neutral temperature (no weather in CEEW; seasonal_adjust degenerates to 1)
+    temperature = np.full(WINDOW_STEPS, 25.0, np.float32)
+
+    # DT-level measurements from member meters (mean V / mean I; 0 when all missing)
+    dt_voltage = np.zeros((d, WINDOW_STEPS), np.float64)
+    dt_current = np.zeros((d, WINDOW_STEPS), np.float64)
+    for g in range(d):
+        blk_v = voltage[g * m:(g + 1) * m]
+        blk_i = current[g * m:(g + 1) * m]
+        with np.errstate(invalid='ignore'):
+            dt_voltage[g] = np.nanmean(np.where(np.isfinite(blk_v), blk_v, np.nan), axis=0)
+            dt_current[g] = np.nanmean(np.where(np.isfinite(blk_i), blk_i, np.nan), axis=0)
+    dt_voltage = np.nan_to_num(dt_voltage)
+    dt_current = np.nan_to_num(dt_current)
+
+    # TRUE dt input: sum of causally-imputed true loads + physics loss on true loads
+    true_for_loss = causal_impute(kwh.copy(), dt_voltage,
+                                  meters.dt_id.to_numpy(), True)
+    dt_kwh = np.zeros((d, WINDOW_STEPS), np.float64)
+    for g in range(d):
+        topo = star_topology(m)
+        dt_kwh[g] = _dt_input_from_true(true_for_loss[g * m:(g + 1) * m],
+                                        topo, cfg, dt_voltage[g])
+
+    topologies = [star_topology(m) for _ in range(d)]
+    obs = Observations(
+        meters=meters,
+        kwh=kwh.astype(np.float32),                 # NaN preserved
+        kvarh=np.where(missing, np.nan, 0.0).astype(np.float32),
+        voltage=voltage.astype(np.float32),
+        events=np.zeros((d * m, WINDOW_STEPS), np.uint8),
+        missing=missing,
+        dt_kwh=dt_kwh.astype(np.float32),
+        dt_kvarh=np.zeros((d, WINDOW_STEPS), np.float32),
+        dt_voltage=dt_voltage.astype(np.float32),
+        dt_currents=np.stack([dt_current, np.zeros_like(dt_current),
+                              np.zeros_like(dt_current)], axis=2).astype(np.float32),
+        temperature=temperature,
+        topologies=topologies,
+        split=np.full(d, 'trackc'),
+        cfg=cfg,
+        seed=42,
+    )
+    info = {'meters': kept_sorted,
+            'dt_of_meter': {mid: i // m for i, mid in enumerate(kept_sorted)}}
+    return obs, info
